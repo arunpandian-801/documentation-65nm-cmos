@@ -102,7 +102,7 @@ With the resistor value we just computed and the sizes tabulated for MOSFET, let
 From *Figure-04*, we can see that the drain currents are indeed 10 µA (observe only for right and left MOSFET, and not for the MOSFETs that form the amplifier). And our core design is complete.
 
 !!! warning
-    Do not attempt for precise value of 10 µA by fine tuning the value of resistance. It is a futile thing to do as MOSFETs themselves have process variations and an IC resistor simply cannot be set to a precise value not to mention the horrible tolerance of it's nominal value. When we say the current is 10 µA, it is nominally 10 µA and it could be 9.8 µA or even 10.5 µA. This precise design methodology is just an illusion spread among the community and do not fall for it!
+    ***Do not attempt for precise value of 10 µA*** by fine tuning the value of resistance. It is a futile thing to do as MOSFETs themselves have process variations and an IC resistor simply cannot be set to a precise value not to mention the horrible tolerance of it's nominal value. When we say the current is 10 µA, it is nominally 10 µA and it could be 9.8 µA or even 10.5 µA. ***This precise design methodology is just an illusion spread among the community and do not fall for it!***
 
 ### Supply Dependance
 
@@ -170,7 +170,7 @@ And this is now leaking 262 µA, more than enough to kickstart the circuit.
 
 Since the leaker performance is satisfactory for `10/1`, it is fixed.
 
-## Startup Action - Transient Simulation
+## Transient Simulation - Startup Action
 
 Let's attach the startup circuit to the BMR schematic of [Figure-04](#fig-04), and let's apply a voltage step to supply to see what happens. But before we do that, we need to **compensate the error amplifier** to ensure stability.
 
