@@ -270,7 +270,7 @@ The output MOSFETs have 10 times the width of standard sizes and so are expected
     I will not do any such iterations to redesign as this documentation is written for demonstration purposes. But, this must be kept in mind when this is designed in a production environment.
 
 !!! warning
-    Do not attempt to size these LVT MOSFETs (aka Floating Current sources) to precisely split the 10 µA into two 5 µA branch currents. Even though in [Figure-11](#fig-11), the Output stage NMOS is in **triode**, it's alright as you can and only need to roughly set the V~GS~ for proper biasing. This is because of keeping two current sources in series, and we already discussed what happens when we do so. When signal is applied through a gain stage, that is more than enough to move the V~GS~ of the output MOSFETs to drive load.
+    Do not attempt to size these LVT MOSFETs (aka Floating Current sources) to precisely split the 10 µA into two 5 µA branch currents. Even though in [Figure-11](#fig-11), the Output stage NMOS is in **triode**, it's alright as you can and only need to roughly set the V~GS~ for proper biasing. That NMOS is in triode because of keeping two current sources in series (both PMOS and NMOS), and we already discussed what happens when we do so. When signal is applied through a gain stage, that is more than enough to move the V~GS~ of the output MOSFETs to drive load.
 
     Again, ***Do not attempt for precision design. This precise design methodology is just an illusion spread among the community and do not fall for it!***
 
