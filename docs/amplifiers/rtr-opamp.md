@@ -407,9 +407,11 @@ And for a worst case scenario, let's step around 0.6 V as both input diff-amps a
 ///
 
 !!! success ""
-    Don't be scared by seeing this response as the overshoot is just a mere 20 mV. The voltage scale on this curve is just 10 mV/div.
+    Don't be scared by seeing this response as the overshoot is just a mere 20 mV. The voltage scale on this curve is 10 mV/div.
 
-    Rather what should scare you is the settling time, as it takes 20 ns for ringing to die down even the step up and down itself happens in less that 10 ns.
+    Notice the settling time, as it takes 20 ns for ringing to die down when even the step up and down itself happens in less than 10 ns.
+
+    But it still wouldn't be such a big problem when you have large excursions (see [Figure-17](#fig-17)), as 20 mV dwarfs in comparision to surrounding signal levels. This appears quite noticeable in this curve because it's specifically zoomed in on this section. Continue through the documentation to see the full picture.
 
 This result is not surprising considering the fact that there's just a phase margin of 50° (53.6° to be precise). But this is inevitable considering the fact that we haven't implemented any constant-g~m~ control at the input stage (See the [Collapsable note](#note-collapse-1) for more info).
 
@@ -418,11 +420,13 @@ This result is not surprising considering the fact that there's just a phase mar
 
     \- *Ref. Desigining Analog Chips, Hans Camenzind, Pg. 6-14*
 
-But this ringing is considered stable as per the above quote and we will stop the worst case discussion here.
+But this ringing is considered stable as per the above quote and also the fact that the overshoot is too small. We will stop the worst case discussion here.
 
 ### Stepping from and to cross-over region - extra cases
 
 For the sake of completeness, let's also see what happens when I step from cross-over region and to cross-over region.
+
+<a id="fig-17"></a>
 
 ![Step from and to cross-over](./rtr-opamp-assets/06_FollowerConfig_Tran_05_04and03_Combined_dark.svg#only-dark)
 ![Step from and to cross-over](./rtr-opamp-assets/06_FollowerConfig_Tran_05_04and03_Combined_light.svg#only-light)

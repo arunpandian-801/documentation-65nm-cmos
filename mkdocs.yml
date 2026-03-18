@@ -67,14 +67,15 @@ nav:
   - Home: index.html
   # - Home: index.md
 
-  - MOSFET Parameters:
+  - IC Characterization:
     - Sizes & Parameter Summary: mosfet/parameters.md
+    - Parasitic BJT Summary: mosfet/BJT-parameters.md
 
   - References & Bias Circuits:
     - Beta Multiplier Reference: references/bmr.md
     - General Bias Circuit: references/general-bias.md
-    - Standard Bandgap Reference (1.22V): references/bgr-standard.md
-    - Low Voltage Bandgap Reference (0.61V): references/bgr-low-voltage.md
+    - Series Bandgap Reference (1.22V): references/bgr-standard.md
+    - Parallel Bandgap Reference (0.61V): references/bgr-low-voltage.md
 
   - Amplifiers:
     - Rail-to-Rail Op-Amp: amplifiers/rtr-opamp.md
