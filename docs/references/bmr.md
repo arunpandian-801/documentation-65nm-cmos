@@ -168,6 +168,22 @@ The current leaked is just 14 fA (too less to disturb our bias current, meaning 
 In the right of *Figure-07*, we see the initial case, i.e., not started case. And this is easily simulated by setting 0 V to the gate of Pull down NMOS, \(V_{DD} - V_{SG,P} = 1.2 - 0 = 1.2 V\) to the drain of leaker NMOS, and \(V_{GS,N} = 0 V\) to the source of leaker NMOS.  
 And this is now leaking 262 µA, more than enough to kickstart the circuit.
 
+<a id="danger-01"></a>
+
+!!! danger "WARNING - Think of this 262 µA as a figure of merit for sizing this MOSFET and nothing more"
+    There is no way for a leaker MOSFET to conduct this much current considering the fact that it is connected to a node with ***NO DC PATH*** to any of the supply rail before the circuit has started. Think about it, the current path is connected to gate of BMR PMOS. How can such large currents be drawn through a gate of a MOSFET? It's impossible.
+
+    One might argue that the error-amp output is also tied there and it can provide such a path for this current. Again think about it, when the circuit has not started, the voltage at the inputs of error-amp is at near GND. That pushes the output of error-amp to near V~DD~, shutting both pull-up PMOS OFF. There is no path here either.
+
+    So, just think of this current as a figure of merit to choose a size for this MOSFET. ***In actual reality, it would leak few hundred nA at best. Nothing more.***
+
+!!! question "Then why bother with such a measurement?"
+    Imagine if your chosen size barely leaks a µA current even with voltage sources. Then it is guarenteed to take forever to startup the circuit. If you imagine can such a thing be possible, it is, unfortunately. Back when I was playing with this circuit to build it, I thought "why leak too much current into the circuit" and chose a ridiculous size, which obviously took too long to start.
+
+    Naturally you want your startup action to be completed in reasonable time.
+
+    That is why, I choose to highlight this current as a figure of merit. Nothing more.
+
 Since the leaker performance is satisfactory for `10/1`, it is fixed.
 
 ## Transient Simulation - Startup Action

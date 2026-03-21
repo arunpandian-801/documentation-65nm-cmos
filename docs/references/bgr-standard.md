@@ -382,7 +382,7 @@ Since the reasoning behind creating the startup circuit is thoroughly explained 
 
 However, I will provide commentary on *Figure-15* to explain some choices in brief:
 
-1. V~bias~ node is the Gate of Current sourcing PMOS (also the output node of error-amp). When the BGR has started up, the PMOS is biased to give 5 µA (See *Figure- ---*). V~bias~ receives appropriate voltage to set this current due to feedback loop.
+1. V~bias~ node is the Gate of Current sourcing PMOS (also the output node of error-amp). When the BGR has started up, the PMOS is biased to give 5 µA (as set by resistor, R~1~. See [Figure-17](#fig-17)). V~bias~ receives appropriate voltage to set this current due to feedback loop.
 2. When BGR has started up, you want to shut your leaker PMOS, and so, you need to pull it's Gate (or output of startup circuit) towards V~DD~. This is achieved by keeping three `1/3` sized diode connected NMOS, which cannot sink 5 µA and hence push the output to supply.
 
     ??? note
@@ -394,6 +394,11 @@ However, I will provide commentary on *Figure-15* to explain some choices in bri
 
 3. The leaker PMOS is taken `1/1` because just by this ratio, it gave about 70 µA (See *Figure-16, Right half*), more than enough to pull the voltage of regulated node up to start the circuit.
 
+    !!! danger "WARNING - Think of this 70 µA as a figure of merit for sizing this MOSFET and nothing more"
+        There is no DC path to conduct such a large current. See the discussion on [Leaker NMOS Testbench](../references/bmr.md#leaker-nmos-testbench) in [BMR](../references/bmr.md) to understand this statement. Especially the associated [Warning at the end of that section](../references/bmr.md#danger-01) for more info.
+
+        ***In actual reality, it would leak few hundred nA at best. Nothing more.***
+
 ![Leaker MOS Design TB](./bgr-standard-assets/19_DCAnnotated_LeakerPMOS_dark.png#only-dark)
 ![Leaker MOS Design TB](./bgr-standard-assets/19_DCAnnotated_LeakerPMOS_light.png#only-light)
 /// caption
@@ -401,6 +406,16 @@ However, I will provide commentary on *Figure-15* to explain some choices in bri
 ///
 
 See the discussion on [Leaker NMOS Testbench](../references/bmr.md#leaker-nmos-testbench) for more information regarding the testbench seen in *Figure-16*.
+
+By now, our PTAT current generator design is finished, and *Figure-17* shows the DC annotated Schematic.
+
+<a id="fig-17"></a>
+
+![DC Annotated schematic PTAT Current](./bgr-standard-assets/18_DCAnnotated_PTAT_Generator_dark.png#only-dark)
+![DC Annotated schematic PTAT Current](./bgr-standard-assets/18_DCAnnotated_PTAT_Generator_light.png#only-light)
+/// caption
+**Figure-17:** DC Annotated schematic of PTAT current generator portion of BGR
+///
 
 ## Fixing PTAT Voltage Source resistor, R~2~
 
@@ -432,3 +447,155 @@ Looking at [Table-01](#table-01), we get \(\delta V_{Q_3}/\delta T = -1.75~mV/C\
 From L and R~1~, we get,
 
 \[R_2 = L * R_1 = 9.865 * 10.9k \approx 107.5k\]
+
+!!! note
+    This value of R~2~ is just a starting guess. That is, we will start our design with this value, and later adjust it to get better temperature performance in iterations.
+
+## DC Simulations
+
+Since we hand calculated the value of R~2~, we have to iterate to get better temperature performance. You will see what this means shortly.
+
+### Iteration 1
+
+Let's summarise the parameters calculated for design till now:
+
+<a id="table-04"></a>
+
+| Parameter | Value |
+|-----------|-------|
+| R~1~ | 10.9 kΩ |
+| R~2~ | 107.5 kΩ |
+/// caption
+**Table-04:** Values of Resistors R~1~ and R~2~ for iteration 1
+///
+
+The schematic diagram with the values in *Table-04* is shown in *Figure-17.*
+
+<a id="fig-18"></a>
+
+![BGR Schematic - 1](./bgr-standard-assets/14_BGR_01_Iteration1_schematic_dark.png#only-dark)
+![BGR Schematic - 1](./bgr-standard-assets/14_BGR_01_Iteration1_schematic_light.png#only-light)
+/// caption
+**Figure-18:** Series BGR schematic for iteration 1. Resistor values from Table-04
+///
+
+And the output voltage vs temperature can be seen in *Figure-18.*
+
+<a id="fig-19"></a>
+
+![BGR temperature performance - 1](./bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_01_dark.svg#only-dark)
+![BGR temperature performance - 1](./bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_01_light.svg#only-light)
+/// caption
+**Figure-19:** BGR output performance across temperature for values of resistors in Table-04
+///
+
+Clearly, the output is showing PTAT nature instead of the characteristic bow. 
+
+Even though the output is more or less constant, i.e., around \(1.2695~V \pm 5~mV\), the temperature performance is still not that good: **104.62 ppm/°C**
+
+Let's iterate.
+
+### Iteration 2
+
+This is purely a trial and error process. But there is still some logic to it. Also, we will touch only the output PTAT voltage source resistor, R~2~.
+
+!!! warning
+    Do not touch R~1~ as it sets the bias current in PTAT Current generator portion. Our calculations in [Fixing PTAT Voltage Source resistor, R2](../references/bgr-standard.md#fixing-ptat-voltage-source-resistor-r2) section depends on parameters for PNP Diodes listed in [Table-01](#table-01), which clearly characterized the PNP Diode for a bias current of 5 µA.
+
+    This bias current is set by value of R~1~ and as such, ***changing this changes the bias current***, and renders [Table-01](#table-01) as useless. **DO NOT CHANGE THIS IN ANY ITERATION**.
+
+    And if you do, regenerate [Table-01](#table-01) for your new operating point and recalculate an initial value for R~2~ as PNP diodes now have different characteristics!
+
+Before we change R~2~, let's look at the kind of output we expect from BGR.
+
+<a id="fig-20"></a>
+
+![BGR Characteristic BOW](./bgr-standard-assets/21_BGR_CharacteristicBow_dark.svg#only-dark)
+![BGR Characteristic BOW](./bgr-standard-assets/21_BGR_CharacteristicBow_light.svg#only-light)
+/// caption
+**Figure-20:** Characteristic bow in the temperature curve of a bandgap reference \[Ref. Desigining Analog Chips, Hans Camenzind, Fig. 7-6]
+///
+
+Comparing [Figure-19](#fig-19) and *Figure-20* we can see that the output curve is PTAT and is just the left portion of what we expect to get. So, we need to move towards the bow flat portion (maximum value point) by varying R~2~.
+
+To that end, try:
+
+- Increasing R~2~ by considerable amount (say 50 kΩ or even 100 kΩ), and re-simulate. See if you get the right portion of *Figure-20* that is whether [Figure-19](#fig-19) has changed to CTAT curve instead of PTAT curve.
+    - If it did, we know that Bow characteristic lies between initial R~2~ value of 107.5 kΩ and this new value, and so start to fine tune it in this range to get the desired curve.
+    - If it still remained PTAT, then you adapt and do the opposite.
+- Decreasing R~2~ should be considered after you first try increasing it. 
+
+In this design, increasing had no effect and I adapted and started decreasing. For example, see *Figure-21* which shows a CTAT like output instead of the PTAT one from [Figure-19](#fig-19) for reducing R~2~ value from 107.5 kΩ to 80 kΩ.
+
+<a id="fig-21"></a>
+
+![BGR temperature performance for 80k]()
+/// caption
+**Figure-21:** BGR output performance across temperature for reducing R~2~ from 107.5 kΩ ([Table-04](#table-04) value) to 80 kΩ
+///
+
+!!! warning "CAUTION - Sometimes the characteristic bow can be inverted"
+    Below, I have included an ***inverted bow*** which I got while designing the parallel realized BGR.
+
+    ![Inverted BGR Bow](./bgr-standard-assets/22_Inverted_BGR_Bow_dark.svg#only-dark)
+    ![Inverted BGR Bow](./bgr-standard-assets/22_Inverted_BGR_Bow_light.svg#only-light)
+    /// caption
+    **Figure-22:** Inverted BGR Bow output of parallel realized BGR (V~out~ = 0.61 V) (QUCS-S/NGSPICE)
+    ///
+
+    I know *Figure-22* seems unreal considering none of the textbooks cover an inverted bow as an output of BGR.
+
+    My point of showing this here, is to give an example where increasing R~2~ (or decreasing) may result in an inverted bow as seen in *Figure-22* and opposite to what is expected as shown in [Figure-20](#fig-20).
+
+    Is the inverted bow correct? ***NO IDEA***
+
+    I suspect that this is due to the type of resistor I used here, which is a ***High Resistivity Poly resistor.*** There are other variants available in 65 nm CMOS process like simple N+ and P+ poly, N-well resistors. But I chose the above one to save layout area.
+
+    See this [Reddit post](https://www.reddit.com/r/chipdesign/comments/1qsv879/bizarre_bow_characteristics_of_bgr_output_supply/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button). It tries to find an answer for this. Maybe you can find a clue there.
+
+!!! success ""
+    With the preceeding discussion, I narrowed down value of R~2~ to 99 kΩ.
+
+Let's summarize the new values:
+
+| Parameter | Value |
+|-----------|-------|
+| R~1~ | 10.9 kΩ |
+| R~2~ | 99 kΩ |
+/// caption
+**Table-05:** Values of Resistors R~1~ and R~2~ for iteration 2
+///
+
+Changing R~2~ in [Figure-18](#fig-18) with the value in *Table-05* (99 kΩ) yields:
+
+![BGR temperature performance - 2](./bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_02_dark.svg#only-dark)
+![BGR temperature performance - 2](./bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_02_light.svg#only-light)
+/// caption
+**Figure-23:** BGR output performance across temperature for values of resistors in Table-05
+///
+
+Temperature performance seen in *Figure-23* is leagues above what we saw in [Figure-19](#fig-19) or [Figure-21](#fig-21).
+
+The output is about \(1.2227 \pm 475 \mu V\) with a temperature performance of **19.416 ppm/°C**.
+
+Now that we got the characteristic bow, let's also see the supply dependance.
+
+### Supply Dependance
+
+Sweeping the supply from GND to V~DD~ (3.3 V), yields *Figure-24*.
+
+![BGR output supply Performance](./bgr-standard-assets/15_BGR_output_SupplyDependance_dark.svg#only-dark)
+![BGR output supply Performance](./bgr-standard-assets/15_BGR_output_SupplyDependance_light.svg#only-light)
+/// caption
+**Figure-24:** BGR output vs Supply
+///
+
+It seems that we can go as low as V~DD~/2 (1.65 V) but the output is considerably lower than what's at V~DD~ (3.3 V). This is inevitable considering we really tried to aim for half the supply when designing the error-amp (See the discussion on [Decreasing Minimum supply](../references/bgr-standard.md#decreasing-minimum-supply)), but still, the output is only slightly less than 1.2 V.
+
+I am not claiming V~DD~/2 in our operating range, just, it is not bad.
+
+## TRANSIENT SIMULATION - Startup Action
+
+Once again, the error-amp in feedback loop must be compensated as discussed in [Using MOSFET as a capacitor to compensate the feedback loop](../references/bmr.md#using-mosfet-as-a-capacitor-to-compensate-the-feedback-loop). Please review that section as repeating it here will result in redundancy.
+
+There, the discussion leaned towards PMOS as a capacitor due to current spikes.
