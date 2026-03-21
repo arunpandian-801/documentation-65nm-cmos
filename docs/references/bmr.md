@@ -108,6 +108,8 @@ From *Figure-04*, we can see that the drain currents are indeed 10 µA (observe 
 
 *Figure-05* shows the drain currents of left and right MOSFETs when supply voltage is swept from GND to V~DD~ (1.2 V).
 
+<a id="fig-05"></a>
+
 ![BMR Supply Dependance](./bmr-assets/03_ID_VS_Supply_dark.svg#only-dark)
 ![BMR Supply Dependance](./bmr-assets/03_ID_VS_Supply_light.svg#only-light)
 /// caption
@@ -298,4 +300,13 @@ So, I will go with PMOS.
 **Figure-14:** Final schematic of BMR with sizes from Table-01 and others from the rest of this documentation.
 ///
 
-The design of BMR is complete.
+The design of BMR is complete. The parameters of BMR are summarised in *Table-03*.
+
+| Parameter | Value | Comments |
+|-----------|-------|----------|
+| I~REF~ | 10 µA | Generated Bias Current |
+| V~DD,min~ | 0.7 V | Minimum supply Voltage (See [Figure-05](#fig-05))|
+| R | 6.2 kΩ | Bias current setting resistor value |
+/// caption
+**Table-03:** BMR Parameter summary
+///

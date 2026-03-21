@@ -525,11 +525,12 @@ To that end, try:
     - If it still remained PTAT, then you adapt and do the opposite.
 - Decreasing R~2~ should be considered after you first try increasing it. 
 
-In this design, increasing had no effect and I adapted and started decreasing. For example, see *Figure-21* which shows a CTAT like output instead of the PTAT one from [Figure-19](#fig-19) for reducing R~2~ value from 107.5 kΩ to 80 kΩ.
+In this design, increasing had no effect and I adapted and started decreasing. For example, see *Figure-21* which shows a ***CTAT like*** output instead of the PTAT one from [Figure-19](#fig-19) for reducing R~2~ value from 107.5 kΩ to 80 kΩ.
 
 <a id="fig-21"></a>
 
-![BGR temperature performance for 80k]()
+![BGR temperature performance for 80k](./bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_02_80k_dark.svg#only-dark)
+![BGR temperature performance for 80k](./bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_02_80k_light.svg#only-light)
 /// caption
 **Figure-21:** BGR output performance across temperature for reducing R~2~ from 107.5 kΩ ([Table-04](#table-04) value) to 80 kΩ
 ///
@@ -598,4 +599,70 @@ I am not claiming V~DD~/2 in our operating range, just, it is not bad.
 
 Once again, the error-amp in feedback loop must be compensated as discussed in [Using MOSFET as a capacitor to compensate the feedback loop](../references/bmr.md#using-mosfet-as-a-capacitor-to-compensate-the-feedback-loop). Please review that section as repeating it here will result in redundancy.
 
-There, the discussion leaned towards PMOS as a capacitor due to current spikes.
+There, the discussion leaned towards PMOS as a capacitor due to current spikes. But in here, I don't care about the current but the voltage and so, I am going to lean towards an NMOS as a capacitor noting that the output of error-amp where we connect this, is at 2.67 V (See [Figure-17](#fig-17)).
+
+And looking at [I/O MOSFET as a capacitor](../mosfet/parameters.md#io-device-500-nm_1) table (repeated here in *Table-06* for convenience), we can clearly see that:
+
+- PMOS will behave poorly as a capacitor considering it needs a voltage less than 2.4 V whereas the voltage here is 2.67 V.
+- NMOS will behave greatly as it is strongly inverted and more or less retains it's nominal value of 87.2 fF at all times.
+
+| Flavour | Drawn Size | Actual Size | V~G~ | Nominal Capacitance |
+|---------|------------|-------------|------|---------------------|
+| NMOS | 8 / 8 | 4 µm / 4 µm | > 0.81 V | 87.2 fF |
+| PMOS | 8 / 8 | 4 µm / 4 µm | < 2.40 V | 82.7 fF |
+/// caption
+**Table-06:** MOSFET capacitance for specific sizes and Voltage conditions
+///
+
+Also, just to solidify this statement, *Figure-25* shows C-V Curve of `8/8` I/O NMOS as a capacitor.
+
+![I/O NMOS CV Curve](./bgr-standard-assets/20_01_NMOS_CVCurve_8by8_dark.svg#only-dark)
+![I/O NMOS CV Curve](./bgr-standard-assets/20_01_NMOS_CVCurve_8by8_light.svg#only-light)
+/// caption
+**Figure-25:** NMOS CV Curve for 8/8 size
+///
+
+And clearly NMOS attains it's nominal value and is guaranteed to retain it for this case.
+
+And in this case, I am going to keep 5 such NMOS (each `8/8`) in parallel to obtain a nominal capacitance of 435.9 fF (close to 450 fF). 
+
+The observant reader would have already spotted this capacitor in [Figure-18](#fig-18).
+
+??? note
+    I found this 450 fF by just slapping an ideal capacitor of that value in place of NMOS capacitor and simulating a startup action. It's recommended to start with 500 fF and then possibly step up or step down in 100 fF or 50 fF steps while seeing startup action. I chose a suitable value in this way, and then constructed that value using NMOS\/PMOS unit sizes characterized in [MOSFET as Capacitor](../mosfet/parameters.md#mosfet-as-capacitor) section of [MOSFET Sizes & Parameter Summary](../mosfet/parameters.md#mosfet-sizes-parameter-summary) page.
+
+The startup action with this size NMOS as a capacitor is seen in *Figure-26.*
+
+![BGR Startup action](./bgr-standard-assets/17_BGR_StartupAction_dark.svg#only-dark)
+![BGR Startup action](./bgr-standard-assets/17_BGR_StartupAction_light.svg#only-light)
+/// caption
+**Figure-26:** Startup transient with five 8/8 NMOS in parallel (Nominal Capictance of 435.9 fF)
+///
+
+To simulate the circuit turning ON case, supply starts to turn ON at 30 ns with a rise time of 10 ns to reach V~DD~ at 40 ns.
+
+From *Figure-26* the reference is stable and ON around the 80 ns mark.
+
+## Conclusion
+
+![BGR Complete schematic](./bgr-standard-assets/14_BGR_02_FULL_schematic_dark.png#only-dark)
+![BGR Complete schematic](./bgr-standard-assets/14_BGR_02_FULL_schematic_light.png#only-light)
+/// caption
+**Figure-27:** Complete schematic of BGR
+///
+
+The design of BGR is complete. The parameters of series BGR are summarised in *Table-07*.
+
+| Parameter | Value | Comments |
+|-----------|-------|----------|
+| V~REF~ | \(1.2227 \pm 475 \mu V\) | Generated output Voltage |
+| TC~BGR~ | 19.416 ppm/°C | Temperature co-efficient of generated voltage |
+| R~1~ | 10.9 kΩ | PTAT Current Generator resistor |
+| R~2~ | 99 kΩ | PTAT Voltage Source resistor |
+/// caption
+**Table-07:** Series BGR Parameter summary
+///
+
+## QUCS-S / NGSPICE simulations
+
+This circuit is also built and tested in [QUCS-S](https://ra3xdh.github.io/) / [NGSPICE](https://ngspice.sourceforge.io/) and the simulation results are available in [this document](https://drive.google.com/file/d/1QoPZJEZDFVu5yi8JduprD3KL3qRF8O8b/view?usp=drive_link).

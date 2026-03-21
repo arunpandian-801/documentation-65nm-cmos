@@ -140,3 +140,12 @@ Switching resistance per unit width and oxide capacitance per unit area. For siz
 | NMOS-RVT | 20 / 20 | 1.3 µm / 1.3 µm | > 0.6 V | 20.9 fF |
 | PMOS-RVT | 10 / 10 | 650 nm / 650 nm | < 0.6 V | 5.2 fF |
 | PMOS-RVT | 20 / 20 | 1.3 µm / 1.3 µm | < 0.6 V | 20.4 fF |
+
+### I/O Device — 500 nm
+
+**Process:** Custom 65nm CMOS &nbsp;·&nbsp; **Supply:** V~DD~ = 3.3 V &nbsp;·&nbsp; **L~min~** = 500 nm
+
+| Flavour | Drawn Size | Actual Size | V~G~ | Nominal Capacitance |
+|---------|------------|-------------|------|---------------------|
+| NMOS | 8 / 8 | 4 µm / 4 µm | > 0.81 V | 87.2 fF |
+| PMOS | 8 / 8 | 4 µm / 4 µm | < 2.40 V | 82.7 fF |
