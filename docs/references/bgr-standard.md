@@ -21,7 +21,7 @@ Read those sections before proceeding.
 
 I have documented only the design procedure, and anything relevant to that. For theory of operation, please refer to standard textbooks or any lectures.
 
-Before we proceed, let's take a look at the schematic of BGR.
+Before we proceed, let's take a look at the schematic of Series BGR.
 
 <a id="fig-01"></a>
 
@@ -38,9 +38,8 @@ The PNP BJTs are vertical parasitic components that can be used to generate a V~
 | Parameter | Value | Comments |
 |-----------|-------|----------|
 | η | 1003.6 m | Forward current emission coefficient (Emitter-Base junction) |
-| I~S~ | 0.285 aA | Saturation Current |
 | V~BE~ | 0.777 V | 1 Diode (At a current of 5 µA) |
-| \(\delta V_{D}/\delta T\) | -1.75 mV/°C | Change in the diode’s voltage with temperature (at current of 5 µA) for 8 Diodes in parallel |
+| \(\delta V_{BE}/\delta T\) | -1.75 mV/°C | Change in the diode’s voltage with temperature (at current of 5 µA) for 8 Diodes in parallel |
 /// caption
 **Table-01:** PNP Diode summary
 ///
