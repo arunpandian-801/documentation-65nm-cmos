@@ -101,6 +101,11 @@ With the resistor value we just computed and the sizes tabulated for MOSFET, let
 
 From *Figure-04*, we can see that the drain currents are indeed 10 µA (observe only for right and left MOSFET, and not for the MOSFETs that form the amplifier). And our core design is complete.
 
+!!! danger "Sometimes, even DC Op Point needs a startup circuit"
+    If you ever see that your current generator doesn't bias up to it's operating point, try to replace your error-amp with an ideal VCVS of appropriate gain (say 10,000). Generally a VCVS biases up the current generator without the need of a startup.
+
+    But if even that fails, **do add a startup circuit** as it at least tries to induce a voltage to startup the circuit. It could be useful to troubleshoot the error.
+
 !!! warning
     ***Do not attempt for precise value of 10 µA*** by fine tuning the value of resistance. It is a futile thing to do as MOSFETs themselves have process variations and an IC resistor simply cannot be set to a precise value not to mention the horrible tolerance of it's nominal value. When we say the current is 10 µA, it is nominally 10 µA and it could be 9.8 µA or even 10.5 µA. ***This precise design methodology is just an illusion spread among the community and do not fall for it!***
 

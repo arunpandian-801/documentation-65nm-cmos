@@ -415,6 +415,11 @@ By now, our PTAT current generator design is finished, and *Figure-17* shows the
 **Figure-17:** DC Annotated schematic of PTAT current generator portion of BGR
 ///
 
+!!! danger "Sometimes, even DC Op Point needs a startup circuit"
+    If you ever see that your current generator doesn't bias up to it's operating point, try to replace your error-amp with an ideal VCVS of appropriate gain (say 10,000). Generally a VCVS biases up the current generator without the need of a startup.
+
+    But if even that fails, **do add a startup circuit** as it at least tries to induce a voltage to startup the circuit. It could be useful to troubleshoot the error.
+
 ## Fixing PTAT Voltage Source resistor, R~2~
 
 The resistor value for R~2~ is fixed by aiming for ZTC (Zero Temperature Co-efficient) operating point for output. 
