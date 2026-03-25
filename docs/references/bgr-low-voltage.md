@@ -138,7 +138,9 @@ Therefore, the value of L is:
 
 and the value of L\*R resistor is:
 
-\[L * R = 9.8653 * 10.9k\Omega = 107.5 ~k\Omega\]
+<a id="eqn-04"></a>
+
+\[\tag{4} L * R = 9.8653 * 10.9k\Omega = 107.5 ~k\Omega\]
 
 !!! note
     This value of L\*R is just a starting guess. That is, we will start our design with this value, and later adjust it to get better temperature performance in iterations.
@@ -271,6 +273,17 @@ And the parameters are summarized in *Table-04*:
 !!! danger ""
     This doesn't paint the full picture yet. Until we see the loop gain, we can never be confident about the stability.
 
+## Startup circuit design
+
+There are two distinct designs that explain the logic behind the creation of startup circuits (One in [BMR's Startup circuit design section](../references/bmr.md#startup-circuit-design) and the other in [Series BGR's Startup circuit design section](../references/bgr-standard.md#startup-circuit-design)).
+
+Therefore, trying to explain this logic again is a waste of time and space. And so, I am just going to show you the schematic of Startup Circuit (See *Figure-08*) that accompanies the Parallel BGR and move on to other sections.
+
+![Startup circuit schematic]()
+/// caption
+**Figure-08:** Startup circuit schematic
+///
+
 ## Fixing output voltage resistor, N\*R
 
 Let's build the core current generator portion of [Figure-01](#fig-01) and see whether if it works. 
@@ -278,12 +291,12 @@ Let's build the core current generator portion of [Figure-01](#fig-01) and see w
 ![DC Annotated Current Generator](./bgr-low-voltage-assets/03_01_Itr1_DCAnnotatedCurrGenerator_dark.png#only-dark)
 ![DC Annotated Current Generator](./bgr-low-voltage-assets/03_01_Itr1_DCAnnotatedCurrGenerator_light.png#only-light)
 /// caption
-**Figure-08:** DC Annotated schematic of core Current Generator
+**Figure-09:** DC Annotated schematic of core Current Generator
 ///
 
 The values for R and L\*R are found to be **10.9 kΩ** and **107.5 kΩ** from [Value for PTAT Current Generator resistor, R](../references/bgr-low-voltage.md#value-for-ptat-current-generator-resistor-r) and [Fixing CTAT Current Generator resistor, L*R](../references/bgr-low-voltage.md#fixing-ctat-current-generator-resistor-lr).
 
-From *Figure-08*, our design so far seems to at least bias up properly. If this was not the case, we have to fix it, before we proceed to output.
+From *Figure-09*, our design so far seems to at least bias up properly. If this was not the case, we have to fix it, before we proceed to output.
 
 !!! danger "Sometimes, even DC Op Point needs a startup circuit"
     If you ever see that your current generator doesn't bias up to it's operating point, try to replace your error-amp with an ideal VCVS of appropriate gain (say 10,000). Generally a VCVS biases up the current generator without the need of a startup.
@@ -297,9 +310,63 @@ Noting that these MOSFETs have short channel, trying to use equations for comput
 ![Substitution for output resistor](./bgr-low-voltage-assets/03_02_Itr1_OutputResistorSubstitute_dark.png#only-dark)
 ![Substitution for output resistor](./bgr-low-voltage-assets/03_02_Itr1_OutputResistorSubstitute_light.png#only-light)
 /// caption
-**Figure-09:** Output resistor N\*R substituted with a voltage source of 0.6 V
+**Figure-10:** Output resistor N\*R substituted with a voltage source of 0.6 V (VbiasP comes from output of error-amp)
 ///
 
-*Figure-09* gave the current flowing through the voltage source as 13.629 µA and from this, we can compute the impedance looking into the voltage source (the impedance which needs to be present to generate 0.6 V, in other words the value of N\*R) (Refer to [Resistance computation testbench](../references/bmr.md#resistance-computation-testbench)).
+*Figure-10* gave the current flowing through the voltage source as 13.629 µA and from this, we can compute the impedance looking into the voltage source (the impedance which needs to be present to generate 0.6 V, in other words the value of N\*R) (Refer to [Resistance computation testbench](../references/bmr.md#resistance-computation-testbench)).
 
-\[Output ~voltage ~resistor, ~N * R = \frac{0.6}{13.629 \mu} = 44 k\Omega\]
+<a id="eqn-05"></a>
+
+\[\tag{5} Output ~voltage ~resistor, ~N * R = \frac{0.6}{13.629 \mu} = 44 k\Omega\]
+
+## DC Simulations
+
+We have calculated the resistor values for [R](../references/bgr-low-voltage.md#value-for-ptat-current-generator-resistor-r), [L\*R](#eqn-04) and [N\*R](#eqn-05) as 10.9 kΩ, 107.5 kΩ and 44 kΩ. These are just a starting point (kind of like an initial guess) and it will take several iterations to get stable temperature performance at the output.
+
+### Iteration 1 - Using calculated values
+
+Now that we know the values for resistors, let's first simulate this and see the output voltage performance across temperature.
+
+| Parameter | Value |
+|-----------|-------|
+| R | 10.9 kΩ |
+| L\*R | 107.5 kΩ |
+| N\*R | 44 kΩ |
+/// caption
+**Table-05:** Values of resistors for iteration 1
+///
+
+The schematic diagram with the values in *Table-05* is shown in *Figure-11*.
+
+![BGR Schematic - 1]()
+/// caption
+**Figure-11:** Parallel BGR schematic for iteration 1. Resistor values from Table-05
+///
+
+And the output voltage vs temperature can be seen in *Figure-12.*
+
+![BGR temperature performance - 1](./bgr-low-voltage-assets/03_03_Itr1_BGRout_107k44k_dark.svg#only-dark)
+![BGR temperature performance - 1](./bgr-low-voltage-assets/03_03_Itr1_BGRout_107k44k_light.svg#only-light)
+/// caption
+**Figure-12:** BGR output performance across temperature for values of resistors in Table-05
+///
+
+### Iteration 2 - Increasing L\*R
+
+The general procedure is available in [Iteration 2 section of series BGR](../references/bgr-standard.md#iteration-2), but it is briefly repeated here for convenience:
+
+!!! danger "DO NOT TOUCH PTAT CURRENT GENERATOR RESISTOR, R"
+    The PTAT Current generator resistor, R in [Figure-01](#fig-01) sets the bias current for PNP Diodes to 5 µA which enables us to use parameters characterized for this PNP Diode listed in [Table-01](#table-01).
+
+    If you change this resistor, remember that you just made all the other calculations as invalid and have to restart by regenerating [Table-01](#table-01) and then recalculating L\*R and N\*R resistors.
+
+***This is purely a trial and error process. But there is still some logic to it.***
+
+L\*R and N\*R resistors offers two degrees of freedom for:
+
+- L\*R - Adjusting temperature performance
+- N\*R - Adjusting output voltage
+
+With all this and from [Iteration 2 section of series BGR](../references/bgr-standard.md#iteration-2), the procedure is:
+
+- Increase 

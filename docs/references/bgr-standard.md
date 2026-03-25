@@ -472,7 +472,7 @@ Let's summarise the parameters calculated for design till now:
 **Table-04:** Values of Resistors R~1~ and R~2~ for iteration 1
 ///
 
-The schematic diagram with the values in *Table-04* is shown in *Figure-17.*
+The schematic diagram with the values in *Table-04* is shown in *Figure-18.*
 
 <a id="fig-18"></a>
 
@@ -482,7 +482,7 @@ The schematic diagram with the values in *Table-04* is shown in *Figure-17.*
 **Figure-18:** Series BGR schematic for iteration 1. Resistor values from Table-04
 ///
 
-And the output voltage vs temperature can be seen in *Figure-18.*
+And the output voltage vs temperature can be seen in *Figure-19.*
 
 <a id="fig-19"></a>
 
