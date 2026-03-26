@@ -500,9 +500,9 @@ Let's iterate.
 
 ### Iteration 2
 
-This is purely a trial and error process. But there is still some logic to it. Also, we will touch only the output PTAT voltage source resistor, R~2~.
+***This is purely a trial and error process. But there is still some logic to it***. Also, we will touch only the output PTAT voltage source resistor, R~2~.
 
-!!! warning
+!!! danger "DO NOT TOUCH PTAT CURRENT GENERATOR RESISTOR, R~1~"
     Do not touch R~1~ as it sets the bias current in PTAT Current generator portion. Our calculations in [Fixing PTAT Voltage Source resistor, R2](../references/bgr-standard.md#fixing-ptat-voltage-source-resistor-r2) section depends on parameters for PNP Diodes listed in [Table-01](#table-01), which clearly characterized the PNP Diode for a bias current of 5 µA.
 
     This bias current is set by value of R~1~ and as such, ***changing this changes the bias current***, and renders [Table-01](#table-01) as useless. **DO NOT CHANGE THIS IN ANY ITERATION**.
@@ -516,14 +516,14 @@ Before we change R~2~, let's look at the kind of output we expect from BGR.
 ![BGR Characteristic BOW](./bgr-standard-assets/21_BGR_CharacteristicBow_dark.svg#only-dark)
 ![BGR Characteristic BOW](./bgr-standard-assets/21_BGR_CharacteristicBow_light.svg#only-light)
 /// caption
-**Figure-20:** Characteristic bow in the temperature curve of a bandgap reference \[Ref. Desigining Analog Chips, Hans Camenzind, Fig. 7-6]
+**Figure-20:** Characteristic bow in the output curve of a bandgap reference across temperature \[Ref. Designing Analog Chips, Hans Camenzind, Fig. 7-6]
 ///
 
 Comparing [Figure-19](#fig-19) and *Figure-20* we can see that the output curve is PTAT and is just the left portion of what we expect to get. So, we need to move towards the bow flat portion (maximum value point) by varying R~2~.
 
 To that end, try:
 
-- Increasing R~2~ by considerable amount (say 50 kΩ or even 100 kΩ), and re-simulate. See if you get the right portion of *Figure-20* that is whether [Figure-19](#fig-19) has changed to CTAT curve instead of PTAT curve.
+- Increasing R~2~ by considerable amount (say 50 kΩ or even 100 kΩ), and re-simulate. See if you get the right portion of *Figure-20*, that is whether [Figure-19](#fig-19) has changed to CTAT curve instead of PTAT curve.
     - If it did, we know that Bow characteristic lies between initial R~2~ value of 107.5 kΩ and this new value, and so start to fine tune it in this range to get the desired curve.
     - If it still remained PTAT, then you adapt and do the opposite.
 - Decreasing R~2~ should be considered after you first try increasing it. 
@@ -549,7 +549,7 @@ In this design, increasing had no effect and I adapted and started decreasing. F
     ![Inverted BGR Bow](./bgr-standard-assets/22_Inverted_BGR_Bow_dark.svg#only-dark)
     ![Inverted BGR Bow](./bgr-standard-assets/22_Inverted_BGR_Bow_light.svg#only-light)
     /// caption
-    **Figure-22:** Inverted BGR Bow output of parallel realized BGR (V~out~ = 0.61 V) (QUCS-S/NGSPICE)
+    **Figure-22:** Inverted Bow output of parallel realized BGR (V~out~ = 0.61 V) (QUCS-S/NGSPICE)
     ///
 
     I know *Figure-22* seems unreal considering none of the textbooks cover an inverted bow as an output of BGR.

@@ -75,7 +75,7 @@ nav:
     - Beta Multiplier Reference: references/bmr.md
     - General Bias Circuit: references/general-bias.md
     - Series Bandgap Reference (1.22V): references/bgr-standard.md
-    - Parallel Bandgap Reference (0.61V): references/bgr-low-voltage.md
+    - Parallel Bandgap Reference (0.6V): references/bgr-low-voltage.md
 
   - Amplifiers:
     - Rail-to-Rail Op-Amp: amplifiers/rtr-opamp.md

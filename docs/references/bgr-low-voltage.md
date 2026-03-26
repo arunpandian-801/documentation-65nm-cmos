@@ -288,6 +288,8 @@ Therefore, trying to explain this logic again is a waste of time and space. And 
 
 Let's build the core current generator portion of [Figure-01](#fig-01) and see whether if it works. 
 
+<a id="fig-09"></a>
+
 ![DC Annotated Current Generator](./bgr-low-voltage-assets/03_01_Itr1_DCAnnotatedCurrGenerator_dark.png#only-dark)
 ![DC Annotated Current Generator](./bgr-low-voltage-assets/03_01_Itr1_DCAnnotatedCurrGenerator_light.png#only-light)
 /// caption
@@ -307,10 +309,12 @@ Now that this is done, let's focus on fixing a value for output resistor N\*R.
 
 Noting that these MOSFETs have short channel, trying to use equations for computing N\*R resistor leads to errors. Instead, let's use the Substitution theorem to find this value. This way is explained in [Fixing Resistor value section of BMR](../references/bmr.md#fixing-resistor-value) and so refer to that for more information.
 
+<a id="fig-10"></a>
+
 ![Substitution for output resistor](./bgr-low-voltage-assets/03_02_Itr1_OutputResistorSubstitute_dark.png#only-dark)
 ![Substitution for output resistor](./bgr-low-voltage-assets/03_02_Itr1_OutputResistorSubstitute_light.png#only-light)
 /// caption
-**Figure-10:** Output resistor N\*R substituted with a voltage source of 0.6 V (VbiasP comes from output of error-amp)
+**Figure-10:** Output resistor N\*R substituted with a voltage source of 0.6 V (VbiasP comes from [Figure-09](#fig-09))
 ///
 
 *Figure-10* gave the current flowing through the voltage source as 13.629 µA and from this, we can compute the impedance looking into the voltage source (the impedance which needs to be present to generate 0.6 V, in other words the value of N\*R) (Refer to [Resistance computation testbench](../references/bmr.md#resistance-computation-testbench)).
@@ -345,28 +349,241 @@ The schematic diagram with the values in *Table-05* is shown in *Figure-11*.
 
 And the output voltage vs temperature can be seen in *Figure-12.*
 
+<a id="fig-12"></a>
+
 ![BGR temperature performance - 1](./bgr-low-voltage-assets/03_03_Itr1_BGRout_107k44k_dark.svg#only-dark)
 ![BGR temperature performance - 1](./bgr-low-voltage-assets/03_03_Itr1_BGRout_107k44k_light.svg#only-light)
 /// caption
 **Figure-12:** BGR output performance across temperature for values of resistors in Table-05
 ///
 
-### Iteration 2 - Increasing L\*R
+Clearly, the output is showing CTAT nature instead of the characteristic bow.
+
+Also, the output as a voltage reference is quite inaccurate, since it's around \(590 ~mV \pm 10 ~mV\).  With a total variation of 20 mV, it’s no surprise that it has an excessively high temperature coefficient of **444.4 ppm/°C**.
+
+Let's iterate.
+
+### Iteration 2 - Increasing L\*R by 50 kΩ
+
+***This is purely a trial and error process. But there is still some logic to it.***
 
 The general procedure is available in [Iteration 2 section of series BGR](../references/bgr-standard.md#iteration-2), but it is briefly repeated here for convenience:
 
 !!! danger "DO NOT TOUCH PTAT CURRENT GENERATOR RESISTOR, R"
     The PTAT Current generator resistor, R in [Figure-01](#fig-01) sets the bias current for PNP Diodes to 5 µA which enables us to use parameters characterized for this PNP Diode listed in [Table-01](#table-01).
 
-    If you change this resistor, remember that you just made all the other calculations as invalid and have to restart by regenerating [Table-01](#table-01) and then recalculating L\*R and N\*R resistors.
-
-***This is purely a trial and error process. But there is still some logic to it.***
+    If you change this resistor, remember that you just made all the other calculations as invalid and have to restart by regenerating [Table-01](#table-01) and then recalculating L\*R and N\*R resistors. **It will take you nowhere!**
 
 L\*R and N\*R resistors offers two degrees of freedom for:
 
 - L\*R - Adjusting temperature performance
 - N\*R - Adjusting output voltage
 
+Once again, let's recall our expected output characteristic for a voltage reference derived from the BGR.
+
+<a id="fig-13"></a>
+
+![BGR Characteristic BOW](./bgr-low-voltage-assets/09_BGR_CharacteristicBow_dark.svg#only-dark)
+![BGR Characteristic BOW](./bgr-low-voltage-assets/09_BGR_CharacteristicBow_light.svg#only-light)
+/// caption
+**Figure-13:** Characteristic bow in the output curve of a bandgap reference across temperature \[Ref. Designing Analog Chips, Hans Camenzind, Fig. 7-6]
+///
+
 With all this and from [Iteration 2 section of series BGR](../references/bgr-standard.md#iteration-2), the procedure is:
 
-- Increase 
+- Increase L\*R by considerable amount (say 50 kΩ or even 100 kΩ), and re-simulate. See if you get the left portion of *Figure-13*, that is whether [Figure-12](#fig-12) has changed to PTAT curve instead of CTAT curve.
+    - If it did, we know that Bow characteristic lies between initial L\*R value of 107.5 kΩ and this new value, and so start to fine tune it in this range to get the desired curve.
+    - If it still remained CTAT, then you adapt and do the opposite.
+- Decreasing L\*R should be considered after you first try increasing it. 
+
+!!! example "SPOILERS: THIS TIME WE WILL GET AN INVERTED CURVE OF *Figure-13*"
+    I know this is surprising, but this time, I obtained an output curve that features the bow from *Figure-13*, **inverted**.
+
+    Let's see an example output with this **inverted** curve. See *Figure-14*.
+
+    <a id="fig-14"></a>
+    
+    ![Inverted BGR Bow](./bgr-low-voltage-assets/10_Inverted_BGR_Bow_dark.svg#only-dark)
+    ![Inverted BGR Bow](./bgr-low-voltage-assets/10_Inverted_BGR_Bow_light.svg#only-light)
+    /// caption
+    **Figure-14:** Inverted Bow output of parallel realized BGR (V~out~ = 0.61 V) (QUCS-S/NGSPICE)
+    ///
+    
+    The reason for presenting this is to demonstrate that the aforementioned procedural steps were formulated keeping [Figure-13](#fig-13) in mind—assuming that the BGR produces an output bow with the characteristics shown there. 
+    
+    But *Figure-14* shows that ***WE CAN GET AN INVERTED BOW*** at the output.
+    
+    So, these procedural steps are nothing more than guidelines. ***Always adapt to your iteration's results to quickly narrow down to a better output.***
+
+---
+
+With the above discussion, let's increase L\*R resistor by 50 kΩ to get a new value of 157.5 kΩ.
+
+| Parameter | Value |
+|-----------|-------|
+| R | 10.9 kΩ |
+| L\*R | 157.5 kΩ |
+| N\*R | 44 kΩ |
+/// caption
+**Table-06:** Values of resistors for iteration 2
+///
+
+<a id="fig-15"></a>
+
+![BGR temperature performance - 2](./bgr-low-voltage-assets/03_04_Itr2_BGRout_157k44k_dark.svg#only-dark)
+![BGR temperature performance - 2](./bgr-low-voltage-assets/03_04_Itr2_BGRout_157k44k_light.svg#only-light)
+/// caption
+**Figure-15:** BGR output performance across temperature for values of resistors in Table-06
+///
+
+*Figure-15* shows great resilience against temperature than [Figure-12](#fig-12). But the obtained output is \(507.7 ~mV \pm 1.8 ~mV\), 0.1 V below our target of 0.6 V. For now, we will prioritize finding ZTC (Zero temperature coefficient) point. Later, we will adjust output resistor N\*R as shown in [Figure-10](#fig10) to get the output back to 0.6 V.
+
+The temperature performance is not bad when comparing it to [Figure-12](#fig-12) but is still bad when compared to [Figure-14](#fig-14).
+
+Let's iterate.
+
+### Iteration 3 - Increasing L\*R by another 50 kΩ
+
+Let's increase L\*R resistor by another 50 kΩ to get a new value of 207.5 kΩ and re simulate.
+
+| Parameter | Value |
+|-----------|-------|
+| R | 10.9 kΩ |
+| L\*R | 207.5 kΩ |
+| N\*R | 44 kΩ |
+/// caption
+**Table-07:** Values of resistors for iteration 3
+///
+
+![BGR temperature performance - 3](./bgr-low-voltage-assets/03_05_Itr3_BGRout_207k44k_dark.svg#only-dark)
+![BGR temperature performance - 3](./bgr-low-voltage-assets/03_05_Itr3_BGRout_207k44k_light.svg#only-light)
+/// caption
+**Figure-16:** BGR output performance across temperature for values of resistors in Table-07
+///
+
+Iteration 3 yielded an output of \(461.8 ~mV \pm 3.2 ~mV\). Some observations:
+
+- Output has fallen to 0.46 V. About 0.14 V lower than our target of 0.6 V.
+- ***Output has changed to PTAT nature!***
+    - This is important, as it means we just crossed the ZTC point since we expect to see an inverted BGR. Which should be clear from [Figure-15](#fig-15) and *Figure-16* where both are trying to flatten out at the bottom implying an inverted curve.
+
+---
+
+!!! success ""
+    From [Iteration 2](#iteration-2-increasing-lr-by-50-k) and [Iteration 3](#iteration-3-increasing-lr-by-another-50-k), it is clear that our required value of L\*R resistor lies between 157.5 kΩ and 207.5 kΩ.
+
+    \[157.7 ~k \Omega < L * R < 207.5 ~k \Omega\]
+
+Let's iterate within that range.
+
+### Iteration 4 - Narrowed down to 175 kΩ
+
+In order to avoid getting bogged down by numerous iterations, I'm recording the value that produced the desired output curve. I determined this value through several iterations of the L\*R resistor, ranging from 157.5 kΩ to 207.5 kΩ as discussed at the end of [Iteration 3](#iteration-3-increasing-lr-by-another-50-k).
+
+<a id="table-08"></a>
+
+| Parameter | Value |
+|-----------|-------|
+| R | 10.9 kΩ |
+| L\*R | 175 kΩ |
+| N\*R | 44 kΩ |
+/// caption
+**Table-08:** Values of resistors for iteration 4
+///
+
+![BGR temperature performance - 4](./bgr-low-voltage-assets/03_06_Itr4_BGRout_175k44k_dark.svg#only-dark)
+![BGR temperature performance - 4](./bgr-low-voltage-assets/03_06_Itr4_BGRout_175k44k_light.svg#only-light)
+/// caption
+**Figure-17:** BGR output performance across temperature for values of resistors in Table-08
+///
+
+We got the expected bow, but our output has fallen to 0.488 V. 
+
+---
+
+Let's adjust N\*R resistor now.
+
+Once again, the testbench is similar to [Figure-10](#fig-10) and is shown in *Figure-18*.
+
+<a id="fig-18"></a>
+
+![Substitution for output resistor - 2](./bgr-low-voltage-assets/03_07_Itr4_OutputResistorSubstitute_dark.png#only-dark)
+![Substitution for output resistor - 2](./bgr-low-voltage-assets/03_07_Itr4_OutputResistorSubstitute_light.png#only-light)
+/// caption
+**Figure-18:** Output resistor N\*R substituted with a voltage source of 0.6 V (VbiasP comes from [Figure-09](#fig-09) with resistor values from [Table-08](#table-08))
+///
+
+Noting that the current drawn is 10.56 µA for a voltage of 0.6 V, the impedance it presents is:
+
+\[\tag{6} Output ~voltage ~resistor, ~N * R = \frac{0.6}{10.56 \mu} = 56.8 k\Omega\]
+
+So the new values of resistors are:
+
+| Parameter | Value |
+|-----------|-------|
+| R | 10.9 kΩ |
+| L\*R | 175 kΩ |
+| N\*R | 56.8 kΩ |
+/// caption
+**Table-09:** Values of resistors for iteration 4 - adjusting the output voltage to 0.6 V
+///
+
+![BGR temperature performance - 4 - 1](./bgr-low-voltage-assets/03_07_Itr4_BGRout_175k56_8k_dark.svg#only-dark)
+![BGR temperature performance - 4 - 1](./bgr-low-voltage-assets/03_07_Itr4_BGRout_175k56_8k_light.svg#only-light)
+/// caption
+**Figure-19:** BGR output performance across temperature for values of resistors in Table-09
+///
+
+Great! Our output is closer to 0.6 V but the characteristic bow seems to be shifted.
+
+Let's iterate
+
+### Iteration 5 - Final - 170 kΩ
+
+*Figure-19* seems to be slightly leaning towards PTAT. Following the procedure from [Iteration 2](#iteration-2-increasing-lr-by-50-k), ***I need to lower the resistor value to shift toward CTAT, and in doing so, bring the bow back to the center***.
+
+I found 170 kΩ by fine tuning L\*R value.
+
+| Parameter | Value |
+|-----------|-------|
+| R | 10.9 kΩ |
+| L\*R | 170 kΩ |
+| N\*R | 56.8 kΩ |
+/// caption
+**Table-10:** Values of resistors for iteration 5
+///
+
+![BGR temperature performance - 5](./bgr-low-voltage-assets/03_08_Itr5_BGRout_170k56_8k_dark.svg#only-dark)
+![BGR temperature performance - 5](./bgr-low-voltage-assets/03_08_Itr5_BGRout_170k56_8k_light.svg#only-light)
+/// caption
+**Figure-20:** BGR output performance across temperature for values of resistors in Table-10
+///
+
+---
+
+And following [Figure-10](#fig-10) and [Figure-18](#fig-18), I adjusted the value of N\*R resistor to 56 kΩ to bring the output closer to 0.6 V.
+
+| Parameter | Value |
+|-----------|-------|
+| R | 10.9 kΩ |
+| L\*R | 170 kΩ |
+| N\*R | 56 kΩ |
+/// caption
+**Table-11:** Values of resistors for iteration 5 - adjusting the output voltage to 0.6 V
+///
+
+![BGR temperature performance - 5 - 1](./bgr-low-voltage-assets/03_09_Itr5_BGRout_170k56k_dark.svg#only-dark)
+![BGR temperature performance - 5 - 1](./bgr-low-voltage-assets/03_09_Itr5_BGRout_170k56k_light.svg#only-light)
+/// caption
+**Figure-21:** BGR output performance across temperature for values of resistors in Table-11
+///
+
+The final result seems satisfactory. The obtained output voltage is \(598.8 ~mV \pm 525 ~ \mu V\) with a temperature co-efficient of **41.789 ppm/°C**.
+
+!!! warning
+    I could iterate to get better performance, but it would be useless considering the fact that these specifications are obtained in a simulation and when we fabricate this, the resistors will need trimming.
+
+    ***Do not attempt for precise value of 0.6 V or even better temperature characteristics*** by fine tuning the value of resistors. It is a futile thing to do considering process variations and worse tolerance of IC resistors. They cannot be fabricated with precise values and will need trimming. 
+    
+    When we say the output is 0.6 V, it is nominally 0.6 V and it could vary slightly. Run a monte carlo analysis to test this statement. ***This precise design methodology is just an illusion spread among the community and do not fall for it!***
+
