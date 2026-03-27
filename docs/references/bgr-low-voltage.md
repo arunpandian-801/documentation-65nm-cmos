@@ -613,6 +613,7 @@ Some ways of increasing margin for supply are:
 
 - Characterize PNP Diode for even lower currents (lower than 5 µA) to generate smaller V~BE~.
 - Increase the number of PNP Diodes in parallel in both left and right by the same multiplicity. For example, keep 5 diodes in the left and 40 diodes (5\*8) in the right.
+- Use **a larger PNP Diode**. The PNP Diode characterized and used here has an emitter area of 2 µm X 2 µm (See [PNP Diode Parameter summary](../mosfet/BJT-parameters.md#parasitic-vertical-bjt-parameter-summary)). There are other larger diodes with 3.2 µm X 3.2 µm, 5 µm X 5 µm and 10 µm X 10 µm. Such large diodes tends to develop lesser V~BE~ for the same current at the expense of more area. Because they are not utilized, they are also not characterized in the [PNP Diode Parameter summary](../mosfet/BJT-parameters.md#parasitic-vertical-bjt-parameter-summary).
 
 The MOSFETs cannot be adjusted for more margin considering that their sizes are chosen for a minimum V~SD~ of just 60 mV (See [Core Device — 65 nm](../mosfet/parameters.md#core-device-65-nm) table).
 
@@ -692,7 +693,8 @@ Since we already discussed the stability of the loop, we will directly jump to s
 
 <a id="fig-28"></a>
 
-![BGR Schematic Full]()
+![BGR Schematic Full](./bgr-low-voltage-assets/19_BGR_FULL_Schematic_New_dark.png#only-dark)
+![BGR Schematic Full](./bgr-low-voltage-assets/19_BGR_FULL_Schematic_New_light.png#only-light)
 /// caption
 **Figure-28:** Complete schematic of Parallel BGR
 ///
@@ -812,3 +814,30 @@ With this in mind, consider the topology for error-amp shown in *Figure-34*.
 This topology has an output stage which can swing freely, making it ideal for our BGR. Also, compensating the loop can be done just like other designs with a single stage amplifier, by keeping a MOSFET capacitor at the output of error-amp.
 
 Notice that there are no easy path for supply noise to couple onto output of error-amp with this topology.
+
+---
+
+**Because this documentation is intended for demonstration purposes, the modifications are not included in the design, as they fall outside the scope of this documentation**.
+
+## Conclusion
+
+The design of parallel BGR is complete. The final schematic is available in [Figure-28](#fig-28). The parameters of parallel BGR are summarized in *Table-13*.
+
+| Parameter | Value | Comments |
+|-----------|-------|----------|
+| V~REF~ | \(598.8 ~mV \pm 525 \mu V\) | Generated output Voltage |
+| TC~BGR~ | 41.789 ppm/°C | Temperature co-efficient of generated voltage |
+| R | 10.9 kΩ | PTAT Current Generator resistor |
+| L\*R | 170 kΩ | CTAT Current Generator resistor |
+| N\*R | 56 kΩ | Output Voltage source resistor |
+/// caption
+**Table-13:** Parallel BGR Parameter summary
+///
+
+## QUCS-S / NGSPICE simulations
+
+This circuit is also built and tested in [QUCS-S](https://ra3xdh.github.io/) / [NGSPICE](https://ngspice.sourceforge.io/) and the simulation results are available in [this document](https://drive.google.com/file/d/1bhsmCqncuRVdlwWtu3tyfZwc0HyhKYHV/view?usp=sharing).
+
+!!! note
+    - QUCS-S/NGSPICE doc uses slightly different sizes for simulation. It is also correct and yields an output of 0.61 V. Unlike the design here, it didn't received multiple iterations.
+    - The schematic diagram **sports an NMOS capacitor at the output of error-amp**, which as we discussed is dangerous to be present there for stability. Since this is an early design, and one that I consider "experimental", this error may not get corrected there (not now, and not in the future). Nevertheless, since it is a functional design, it is mentioned here, with ***the associated error in the schematic diagram noted in this comment***.
