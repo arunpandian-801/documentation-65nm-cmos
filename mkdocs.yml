@@ -81,7 +81,7 @@ nav:
     - Rail-to-Rail Op-Amp: amplifiers/rtr-opamp.md
 
   - Oscillators:
-    - Current Starved Ring VCO: oscillators/vco.md
+    - Current Starved Ring VCO: oscillators/csvco.md
 
 # ── PLUGINS ────────────────────────────────────────────────────────────────────
 plugins:
