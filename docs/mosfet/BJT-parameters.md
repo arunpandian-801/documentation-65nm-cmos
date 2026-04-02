@@ -2,6 +2,8 @@
 description: Vertical PNP parasitic BJT characterization summary for 65nm custom CMOS process — diode parameters for Cadence Virtuoso and Spectre simulations. For use in Bandgap Reference designs.
 ---
 
+--8<-- "includes/disclaimer.md"
+
 # Parasitic Vertical BJT Parameter Summary
 
 ## PNP Diodes

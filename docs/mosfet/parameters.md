@@ -2,6 +2,8 @@
 description: MOSFET sizing and parameter summary for 65nm custom CMOS process — RVT and LVT analog core devices, I/O 500nm devices, and digital switching parameters, characterized on Cadence Virtuoso and Spectre.
 ---
 
+--8<-- "includes/disclaimer.md"
+
 # MOSFET Sizes & Parameter Summary
 
 This page serves as the central device reference for all designs documented on this site.
