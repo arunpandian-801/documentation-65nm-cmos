@@ -3,7 +3,7 @@ site_description: >
   Project documentation and portfolio for analog CMOS IC design work
   on 65nm custom process — bandgap references, op-amps, bias circuits, and VCOs.
 site_author: Arunpandian
-site_url: https://arunpandian-801.github.io/  # update when GitHub Pages is live
+site_url: https://arunpandian-801.github.io/documentation-65nm-cmos/  # update when GitHub Pages is live
 
 # Repository link (shows on every page top-right)
 repo_name: QUCS-65nm-Workspace
@@ -154,4 +154,4 @@ extra:
   generator: false
 
 copyright: >
-  Copyright &copy; 2026 Arunpandian. Licensed under CC BY 4.0. &nbsp;·&nbsp; Analog IC Design Engineer (Fresher), India
+  Copyright, &copy; 2026, Arunpandian A. Licensed under CC BY 4.0 &nbsp;·&nbsp; Analog IC Design Engineer (Fresher), India

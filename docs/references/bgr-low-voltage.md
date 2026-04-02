@@ -438,7 +438,7 @@ With the above discussion, let's increase L\*R resistor by 50 kΩ to get a new v
 **Figure-15:** BGR output performance across temperature for values of resistors in Table-06
 ///
 
-*Figure-15* shows great resilience against temperature than [Figure-12](#fig-12). But the obtained output is \(507.7 ~mV \pm 1.8 ~mV\), 0.1 V below our target of 0.6 V. For now, we will prioritize finding ZTC (Zero temperature coefficient) point. Later, we will adjust output resistor N\*R as shown in [Figure-10](#fig10) to get the output back to 0.6 V.
+*Figure-15* shows great resilience against temperature than [Figure-12](#fig-12). But the obtained output is \(507.7 ~mV \pm 1.8 ~mV\), 0.1 V below our target of 0.6 V. For now, we will prioritize finding ZTC (Zero temperature coefficient) point. Later, we will adjust output resistor N\*R as shown in [Figure-10](#fig-10) to get the output back to 0.6 V.
 
 The temperature performance is not bad when comparing it to [Figure-12](#fig-12) but is still bad when compared to [Figure-14](#fig-14).
 
