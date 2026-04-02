@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="197.13649mm"
+   height="60.616112mm"
+   viewBox="0 0 197.13649 60.616112"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(-9.6556654,-111.04015)">
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.276817;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1"
+       width="27.433533"
+       height="16.812838"
+       x="40.714272"
+       y="117.71425" />
+    <text
+       xml:space="preserve"
+       style="font-size:5.64444px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       x="42.293102"
+       y="124.98276"
+       id="text1"><tspan
+         id="tspan1"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+         x="42.293102"
+         y="124.98276">Reducing</tspan><tspan
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+         x="42.293102"
+         y="132.03831"
+         id="tspan2">   MWS</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+       x="146.14693"
+       y="124.4138"
+       id="text3"><tspan
+         id="tspan3"
+         style="stroke-width:0"
+         x="146.14693"
+         y="124.4138">Increasing</tspan><tspan
+         style="stroke-width:0"
+         x="146.14693"
+         y="131.46936"
+         id="tspan4">    MWS</tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.29294;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1-8"
+       width="30.072582"
+       height="17.176025"
+       x="144.86841"
+       y="117.4296" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.618006;stroke-dasharray:none;stroke-opacity:1"
+       d="m 70.843291,123.97406 h 70.407989 l -5.98619,-3.61778"
+       id="path4" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.617403;stroke-dasharray:none;stroke-opacity:1"
+       d="M 141.84443,127.46459 H 71.232426 l 5.955226,3.22329"
+       id="path5" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none;stroke-opacity:1"
+       d="m 53.240265,136.11805 v 10.05799"
+       id="path6" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.499999;stroke-dasharray:none;stroke-opacity:1"
+       d="M 160.98694,136.06461 V 146.1226"
+       id="path6-1" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.483202;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1-2"
+       width="83.283646"
+       height="16.874666"
+       x="16.953339"
+       y="148.40102" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.489026;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1-8-2"
+       width="82.178017"
+       height="17.516365"
+       x="119.06783"
+       y="148.04517" />
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
+       x="21.188818"
+       y="154.49063"
+       id="text6"><tspan
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none"
+         x="21.188818"
+         y="154.49063"
+         id="tspan10">Increased R<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan9">out </tspan>(<tspan
+   style="fill:#00ff00;fill-opacity:1"
+   id="tspan13">good</tspan>) </tspan><tspan
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none"
+         x="21.188818"
+         y="161.54619"
+         id="tspan11">More min output Voltage (<tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan14">bad</tspan>)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Italic';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none;stroke-opacity:1"
+       x="121.04581"
+       y="154.41127"
+       id="text6-6"><tspan
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none"
+         x="121.04581"
+         y="154.41127"
+         id="tspan8-7">Decreased R<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan9-5">out </tspan>(<tspan
+   style="fill:#ff0000;fill-opacity:1"
+   id="tspan15">bad</tspan>) </tspan><tspan
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-dasharray:none"
+         x="121.04581"
+         y="161.46683"
+         id="tspan12">Less min output Voltage (<tspan
+   style="fill:#00ff00;fill-opacity:1"
+   id="tspan16">good</tspan>)</tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:none;stroke-width:0.090521;stroke-dasharray:none;stroke-opacity:1"
+       d="m 9.6556654,118.18418 v 53.47208 H 206.79216 V 111.04015 H 9.6556654 Z"
+       id="path17" />
+  </g>
+</svg>

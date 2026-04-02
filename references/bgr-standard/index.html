@@ -1,0 +1,2386 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Conventional Bandgap Reference design procedure — series CTAT and PTAT voltage summation topology, 1.22V silicon bandgap output, 19.416 ppm/°C temperature coefficient, on I/O 500nm MOSFET, simulated on Cadence Virtuoso and Spectre.">
+      
+      
+        <meta name="author" content="Arunpandian">
+      
+      
+        <link rel="canonical" href="https://arunpandian-801.github.io/documentation-65nm-cmos/references/bgr-standard/">
+      
+      
+        <link rel="prev" href="../general-bias/">
+      
+      
+        <link rel="next" href="../bgr-low-voltage/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../overrides/assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Series Bandgap Reference (1.22V) - Arunpandian — Analog IC Design</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=DM+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"DM Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#series-realized-band-gap-reference-bgr" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Arunpandian — Analog IC Design" class="md-header__button md-logo" aria-label="Arunpandian — Analog IC Design" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4h10c1.11 0 2 .89 2 2v2h-3.41L16 10.59v4l-2 2V20h-4v-3.41l-2-2V9.41l2-2zm8 7.41V14h4v-4h-2.59zM6.59 8 8 6.59V4H4c-1.11 0-2 .89-2 2v2zM6 14v-4H2v4zm2 3.41L6.59 16H2v2c0 1.11.89 2 2 2h4zM17.41 16 16 17.41V20h4c1.11 0 2-.89 2-2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arunpandian — Analog IC Design
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Series Bandgap Reference (1.22V)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/arunpandian-801/QUCS-65nm-Workspace" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    QUCS-65nm-Workspace
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mosfet/parameters/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IC Characterization
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../bmr/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  References & Bias Circuits
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../amplifiers/rtr-opamp/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Amplifiers
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../oscillators/csvco/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Oscillators
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Arunpandian — Analog IC Design" class="md-nav__button md-logo" aria-label="Arunpandian — Analog IC Design" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4h10c1.11 0 2 .89 2 2v2h-3.41L16 10.59v4l-2 2V20h-4v-3.41l-2-2V9.41l2-2zm8 7.41V14h4v-4h-2.59zM6.59 8 8 6.59V4H4c-1.11 0-2 .89-2 2v2zM6 14v-4H2v4zm2 3.41L6.59 16H2v2c0 1.11.89 2 2 2h4zM17.41 16 16 17.41V20h4c1.11 0 2-.89 2-2v-2z"/></svg>
+
+    </a>
+    Arunpandian — Analog IC Design
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/arunpandian-801/QUCS-65nm-Workspace" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    QUCS-65nm-Workspace
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IC Characterization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IC Characterization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mosfet/parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sizes & Parameter Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mosfet/BJT-parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parasitic BJT Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References & Bias Circuits
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    References & Bias Circuits
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bmr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beta Multiplier Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../general-bias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    General Bias Circuit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Bandgap Reference (1.22V)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Bandgap Reference (1.22V)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-ptat-current-generator-resistor-r1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing PTAT Current Generator resistor, R1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#added-error-amplifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added error amplifier
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Added error amplifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nmos-input-or-pmos-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NMOS input or PMOS input ?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NMOS input or PMOS input ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constraint-on-output-common-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraint on output common mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inherent-constraint-on-input-common-mode-of-nmos-and-pmos-diff-amp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inherent constraint on Input common mode of NMOS and PMOS Diff-amp
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-modifications-to-diff-amp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Possible modifications to Diff-amp
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bias-leg-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bias-leg Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bias-leg Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decreasing-minimum-supply" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decreasing Minimum supply
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-1-vgs-drop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removing 1 VGS drop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bias-leg-performance-across-supply" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bias Leg Performance across supply
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-sink-from-final-bias-leg-three-diode-connected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Sink from final bias leg (three diode connected)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-amp-icmr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Amp ICMR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#startup-circuit-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup circuit design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-ptat-voltage-source-resistor-r2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing PTAT Voltage Source resistor, R2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dc-simulations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DC Simulations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DC Simulations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iteration-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteration-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supply-dependance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supply Dependance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transient-simulation-startup-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TRANSIENT SIMULATION - Startup Action
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qucs-s-ngspice-simulations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QUCS-S / NGSPICE simulations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bgr-low-voltage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parallel Bandgap Reference (0.6V)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Amplifiers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Amplifiers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../amplifiers/rtr-opamp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rail-to-Rail Op-Amp
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oscillators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Oscillators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oscillators/csvco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Starved Ring VCO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-ptat-current-generator-resistor-r1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing PTAT Current Generator resistor, R1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#added-error-amplifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added error amplifier
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Added error amplifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nmos-input-or-pmos-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NMOS input or PMOS input ?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NMOS input or PMOS input ?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constraint-on-output-common-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constraint on output common mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inherent-constraint-on-input-common-mode-of-nmos-and-pmos-diff-amp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inherent constraint on Input common mode of NMOS and PMOS Diff-amp
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-modifications-to-diff-amp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Possible modifications to Diff-amp
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bias-leg-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bias-leg Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bias-leg Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#decreasing-minimum-supply" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decreasing Minimum supply
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-1-vgs-drop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removing 1 VGS drop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bias-leg-performance-across-supply" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bias Leg Performance across supply
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-sink-from-final-bias-leg-three-diode-connected" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Sink from final bias leg (three diode connected)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-amp-icmr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Amp ICMR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#startup-circuit-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup circuit design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-ptat-voltage-source-resistor-r2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing PTAT Voltage Source resistor, R2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dc-simulations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DC Simulations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DC Simulations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iteration-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteration-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supply-dependance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supply Dependance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transient-simulation-startup-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TRANSIENT SIMULATION - Startup Action
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qucs-s-ngspice-simulations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        QUCS-S / NGSPICE simulations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="admonition warning">
+<p class="admonition-title">Disclaimer</p>
+<p>All circuits documented here are <strong>simulation-only designs</strong> — no physical fabrication or silicon verification has been performed. Results are based on Cadence Spectre and NGSpice simulations using real foundry BSIM4 PTM 65nm models. </p>
+<p>These documents are shared for <strong>portfolio and demonstration purposes</strong> only and are not intended as educational or reference material. Use in any production or critical application without independent verification is strongly discouraged.</p>
+<p>The documentation is Licensed under <strong>CC BY 4.0</strong>, while the QUCS-S Schematics are Licensed under <strong>MIT License</strong>. Read the <code>LICENSE.txt</code> in each of these repositories for more information.</p>
+</div>
+<h1 id="series-realized-band-gap-reference-bgr">Series Realized Band Gap Reference (BGR)<a class="headerlink" href="#series-realized-band-gap-reference-bgr" title="Permanent link">&para;</a></h1>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>This design shares methodology with the <a href="../bmr/">Beta Multiplier Reference (BMR)</a>. The following sections are directly applicable here and are not repeated:</p>
+<ul>
+<li><a href="../bmr/#fixing-resistor-value">Fixing Resistor Value</a> — procedure to find resistor value using the substitution theorem</li>
+<li><a href="../bmr/#startup-circuit-design">Startup Circuit Design</a> — design considerations and procedure are identical
+  to the BMR.</li>
+<li><a href="../bmr/#using-mosfet-as-a-capacitor-to-compensate-the-feedback-loop">Using MOSFET as a capacitor to compensate the feedback loop</a> — NMOS capacitor vs PMOS capacitor and it's effects on startup</li>
+</ul>
+<p>Read those sections before proceeding.</p>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>I have documented only the design procedure, and anything relevant to that. For theory of operation, please refer to standard textbooks or any lectures.</p>
+<p>Before we proceed, let's take a look at the schematic of Series BGR.</p>
+<p><a id="fig-01"></a></p>
+<figure>
+<p><img alt="Series BGR Schematic Diagram" src="../bgr-standard-assets/01_Schemtic_Series_BGR_dark.svg#only-dark" />
+<img alt="Series BGR Schematic Diagram" src="../bgr-standard-assets/01_Schemtic_Series_BGR_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-01:</strong> Series BGR Schematic Diagram (Startup not shown)</p>
+</figcaption>
+</figure>
+<p>The PNP BJTs are vertical parasitic components that can be used to generate a V<sub>BE</sub> voltage (CTAT) in a CMOS process. One such diode is characterized in <a href="../../mosfet/BJT-parameters/#pnp-20-x-20">PNP 20 X 20</a>. The parameters listed there are what we will use to design the BGR, and as such, some necessary parameters for our design are summarised in <em>Table-01:</em></p>
+<p><a id="table-01"></a></p>
+<figure>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>η</td>
+<td>1003.6 m</td>
+<td>Forward current emission coefficient (Emitter-Base junction)</td>
+</tr>
+<tr>
+<td>V<sub>BE</sub></td>
+<td>0.777 V</td>
+<td>1 Diode (At a current of 5 µA)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\delta V_{BE}/\delta T\)</span></td>
+<td>-1.75 mV/°C</td>
+<td>Change in the diode’s voltage with temperature (at current of 5 µA) for 8 Diodes in parallel</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-01:</strong> PNP Diode summary</p>
+</figcaption>
+</figure>
+<div class="admonition question">
+<p class="admonition-title">Why 8 PNP Diodes in parallel? Why the number 8?</p>
+<p>This is entirely due to the ΔVBE caused by the emitter area mismatch between a single PNP diode and <code>K</code> PNP diodes connected in parallel (with both having same current), where <code>K</code> is any integer.</p>
+<div class="arithmatex">\[\Delta V_{BE} = \eta V_{T} \ln K\]</div>
+<p>From <a href="../../mosfet/BJT-parameters/#pnp-20-x-20">PNP 20 X 20</a>, we see that η = 1003.6m and V<sub>T</sub> = 26 mV (at room temperature). Plugging it into the above equation yields:</p>
+<p><a id="eqn-01"></a></p>
+<div class="arithmatex">\[\tag{1} \Delta V_{BE} = 1003.6m * 26m * \ln 8 = 54 mV\]</div>
+<p>Just 54 mV! For 8 PNP Diodes in parallel. Some people will even go for a K of 100, to get a ΔVBE of 120 mV. I know it is painful, but see that to double what we got before with just 8 diodes, now needs 100 diodes. Logarithmic functions are scary!</p>
+<div class="admonition quote">
+<p class="admonition-title">Quote</p>
+<p>Because the logarithm function compresses its argument... if the argument is increased by a factor of ten, ΔVBE increases by only <span class="arithmatex">\(V_{T} * \ln 10 \approx 60 mV, ~\eta \approx 1\)</span>.</p>
+<p>- <em>Ref. Analysis and design of Analog Integrated Circuits: Gray, Meyer, Hurst, Pg 324</em></p>
+</div>
+<p>That is why, I choose 8. Keeping 10 diodes is also a good choice (for a ΔVBE of 60 mV), but I am going to stick with 8.</p>
+</div>
+<p>For designing this, we need to find:</p>
+<ul>
+<li>a Size for current sourcing PMOS.</li>
+<li>Value of PTAT Current generator resistor, R<sub>1</sub>.</li>
+<li>Error amplifier topology plus sizes for MOSFETs used to build it.</li>
+<li>Value of PTAT voltage source resistor, R<sub>2</sub>.</li>
+</ul>
+<p>The MOSFET sizes are already choosen and their parameters are thoroughly listed in <a href="../../mosfet/parameters/#io-device-500-nm">I/O Device — 500 nm</a> table. Unless specified otherwise, these sizes will be the ones we use to construct the entire circuit.</p>
+<p>And as such, these are tabulated here for convenience:</p>
+<p><a id="table-02"></a></p>
+<figure>
+<table>
+<thead>
+<tr>
+<th>Flavour</th>
+<th>W/L (Drawn)</th>
+<th>W/L (Actual)</th>
+<th>I<sub>D</sub></th>
+<th>V<sub>GS</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NMOS</td>
+<td>5.8 / 1</td>
+<td>2.9 µm / 500 nm</td>
+<td>10 µA</td>
+<td>740 mV</td>
+</tr>
+<tr>
+<td>PMOS</td>
+<td>13.8 / 1</td>
+<td>6.9 µm / 500 nm</td>
+<td>10 µA</td>
+<td>690 mV</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-02:</strong> Sizes and Bias Current summary</p>
+</figcaption>
+</figure>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>The observant reader would have questioned these sizing choices considering <a href="#table-01">Table-01</a> characterizes PNP Diodes for 5 µA while here it is characterized for 10 µA. But still, follow along. These sizes are chosen for a general analog design. Just to tease you on how these two gets tied up, the error-amp steps in to adjust the V<sub>SG</sub> of top PMOS in <a href="#fig-01">Figure-01</a> to reduce it's current to 5 µA.</p>
+</div>
+<p>This leaves us with values for resistors R<sub>1</sub> and R<sub>2</sub> and the error amplifer.</p>
+<h2 id="fixing-ptat-current-generator-resistor-r1">Fixing PTAT Current Generator resistor, R<sub>1</sub><a class="headerlink" href="#fixing-ptat-current-generator-resistor-r1" title="Permanent link">&para;</a></h2>
+<p><a href="#prerequisites">Prerequisites</a> section has already listed the knowledge needed to choose a suitable value for this resistor. Review the listed sections to grasp the reasoning behind the testbench employed to determine the value of resistor, R<sub>1</sub>.</p>
+<p>The amplifier and the feedback loop will:</p>
+<ol>
+<li>Force the same voltage across the single diode on the left as well as the resistor R<sub>1</sub> and eight diodes on the right.</li>
+<li>Both of these branches will conduct 5 µA.</li>
+</ol>
+<p>Using <a href="../bmr/#substitution-theorem">Substitution theorem</a>, the testbench is built and can be seen in <em>Figure-02</em>.</p>
+<figure>
+<p><img alt="PTAT Resistor R1 TB" src="../bgr-standard-assets/02_PTATResistor_TB_dark.png#only-dark" />
+<img alt="PTAT Resistor R1 TB" src="../bgr-standard-assets/02_PTATResistor_TB_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-02:</strong> PTAT Current Generator resistor R<sub>1</sub> value Testbench</p>
+</figcaption>
+</figure>
+<p>Notice how we got 54.3 mV, which is very close to what is predicted by <a href="#eqn-01">Equation-01</a>.</p>
+<p>And so, with this voltage, to set a current of 5 µA, we need a resistor of:</p>
+<div class="arithmatex">\[R_{1} = \frac{\Delta V_{BE}}{I} = \frac{54.3m}{5\mu} = 10.86 k\Omega \approx 10.9 k\Omega\]</div>
+<p>Now all we need is the error amplifier.</p>
+<h2 id="added-error-amplifier">Added error amplifier<a class="headerlink" href="#added-error-amplifier" title="Permanent link">&para;</a></h2>
+<p>We need to pick a topology for the error amplifier. Let's go for a single stage diff-amp because:</p>
+<ul>
+<li>It will have sufficient gain (Given L<sub>min</sub> of I/O MOSFET is 500nm. See <a href="#table-02">Table-02</a>)</li>
+<li>It will be easy to compensate.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Always start with the simplest topology possible. If it proves insufficient, you can always add another stage or modify it.</p>
+</div>
+<h3 id="nmos-input-or-pmos-input">NMOS input or PMOS input ?<a class="headerlink" href="#nmos-input-or-pmos-input" title="Permanent link">&para;</a></h3>
+<h4 id="constraint-on-output-common-mode">Constraint on output common mode<a class="headerlink" href="#constraint-on-output-common-mode" title="Permanent link">&para;</a></h4>
+<p>At steady state, both inputs of error-amp will settle to same voltage due to negative feedback loop (or close to each other based on DC Gain). And so, <strong><em>with just a common-mode voltage, the error-amp is expected to set bias voltage for Current sourcing PMOS</em></strong> in <a href="#fig-01">Figure-01</a>.</p>
+<p>And looking at <a href="#table-02">Table-02</a>, we find that the V<sub>SG</sub> of PMOS for the chosen size is 690 mV to source 10 µA. Our design has chosen 5 µA, and so the V<sub>SG</sub> needed will be <strong>slightly lower than 690 mV</strong> for the same size.</p>
+<p>But nevertheless, using this value, the steady voltage at gate of PMOS needed for this V<sub>SG</sub> is given by</p>
+<div class="arithmatex">\[\tag{Rough estimate} V_{G,P} = V_{DD} - V_{SG,P} = 3.3 V - 0.69 V = 2.61 V\]</div>
+<p>And <strong>2.61 V is close to V<sub>DD</sub> of 3.3 V</strong> for 10 µA. And it will be <strong><em>even closer for 5 µA as V<sub>SG</sub> would have reduced for the same size.</em></strong></p>
+<p>So, the observation from here is:</p>
+<div class="admonition info">
+<p class="admonition-title">Constraints on Error amplifier output common mode</p>
+<p><em>Our amplifier output common mode should be close to V<sub>DD</sub>.</em></p>
+</div>
+<p><a id="fig-03"></a></p>
+<figure>
+<p><img alt="NMOS vs PMOS output CM" src="../bgr-standard-assets/03_NMOS_PMOS_ErrorAmp_dark.svg#only-dark" />
+<img alt="NMOS vs PMOS output CM" src="../bgr-standard-assets/03_NMOS_PMOS_ErrorAmp_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-03:</strong> Output Common Mode of NMOS and PMOS input diff-amp</p>
+</figcaption>
+</figure>
+<p>From <em>Figure-03</em>, we could be inclined to think it's an NMOS input differential amplifier, but let's not jump to conclusions yet—there's still another issue to consider.</p>
+<h4 id="inherent-constraint-on-input-common-mode-of-nmos-and-pmos-diff-amp">Inherent constraint on Input common mode of NMOS and PMOS Diff-amp<a class="headerlink" href="#inherent-constraint-on-input-common-mode-of-nmos-and-pmos-diff-amp" title="Permanent link">&para;</a></h4>
+<p>What exactly is the common mode voltage we expect to see? Looking at <a href="#table-01">Table-01</a>, we see that V<sub>BE</sub> is 0.777 V for a current of 5 µA (single diode). And this is the value generated at left side single diode which is also copied to right side due to feedback loop (See <a href="#fig-01">Figure-01</a>).</p>
+<p>Clearly 0.777 V is close to GND (0 V) than V<sub>DD</sub> (3.3 V). And so,</p>
+<div class="admonition info">
+<p class="admonition-title">Constraints on Error amplifier ICMR</p>
+<p><em>Our amplifier input common mode range should include 0.777 V which is close to GND.</em></p>
+</div>
+<figure>
+<p><img alt="NMOS vs PMOS ICMR" src="../bgr-standard-assets/04_ICMR_NMOS_PMOS_ErrorAmp_dark.svg#only-dark" />
+<img alt="NMOS vs PMOS ICMR" src="../bgr-standard-assets/04_ICMR_NMOS_PMOS_ErrorAmp_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-04:</strong> ICMR of NMOS and PMOS input diff-amp</p>
+</figcaption>
+</figure>
+<p>So to sense a common mode voltage near to GND, this time we could incline towards a PMOS.</p>
+<p>But that <em>contradicts with our output common mode constraint</em>.</p>
+<h3 id="possible-modifications-to-diff-amp">Possible modifications to Diff-amp<a class="headerlink" href="#possible-modifications-to-diff-amp" title="Permanent link">&para;</a></h3>
+<p>An NMOS input diff-amp can properly bias up the PMOS current source. But a PMOS input diff-amp can sense a near ground Common Mode voltage.</p>
+<p>So the simplest modification we can do is to <strong><em>add level shifters.</em></strong> That is:</p>
+<ul>
+<li>Shift the input of NMOS input diff-amp upwards towards it's ICMR.</li>
+<li>Shift the output of PMOS input diff-amp upwards towards V<sub>DD</sub>.</li>
+</ul>
+<figure>
+<p><img alt="Diff amps with level shifters" src="../bgr-standard-assets/05_LevelShifterPossbilities_dark.svg#only-dark" />
+<img alt="Diff amps with level shifters" src="../bgr-standard-assets/05_LevelShifterPossbilities_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-05:</strong> Diff-amps with appropriate level shifters</p>
+</figcaption>
+</figure>
+<p><em>Figure-05</em> shows both possibilities. Both can be used as the feedback action will adjust the node voltages to settle to a steady state.</p>
+<p>But, I am going to <strong><em>prefer NMOS variant</em></strong> for the following reasons:</p>
+<ol>
+<li>
+<p>NMOS Diff-amp produces <span class="arithmatex">\(V_{DD} - V_{SG}\)</span> voltage by default with just common mode input. Very useful to directly bias the current source PMOS. </p>
+<details class="question">
+<summary>What happens with a PMOS input Diff-amp?</summary>
+<p>Had we used PMOS Diff-amp, there is a chance for some off-set to develop between the regulated nodes to push the output up to attain steady state. Think about it, Diff-amp operates using <span class="arithmatex">\(V_{out} = A_{D} * (V_{+} - V_{-})\)</span>. So to shift output upwards, you need to develop a non-zero difference between PLUS and MINUS terminals.</p>
+<p>Afterall, we can't set the output of this variant very close to a value unlike the NMOS input case.</p>
+</details>
+</li>
+<li>
+<p>Load of NMOS Diff-amp itself being a PMOS helps to improve matching with the current source PMOS.</p>
+</li>
+<li>
+<p>Output is a high impedance, and can be easily compensated, by making it the dominant pole.</p>
+<details class="question">
+<summary>What to do with PMOS input Diff-amp?</summary>
+<p>You compensate by making the output of Diff-amp the dominant pole, and not the level shifted output. Level shifter presents low impedance at the output and would require large capacitors to compensate. Meanwhile, NMOS output itself is high-impedance node, and it is attached to gate terminals of Current source PMOS which is also high impedance and themselves presents some load, making it easy to compensate.</p>
+</details>
+</li>
+</ol>
+<h3 id="bias-leg-design">Bias-leg Design<a class="headerlink" href="#bias-leg-design" title="Permanent link">&para;</a></h3>
+<p>Looking at <a href="#table-02">Table-02</a>, the V<sub>GS</sub> and V<sub>SG</sub> of NMOS and PMOS are 740 mV and 690 mV. And the supply is 3.3 V. <em>So, we need to achieve a total voltage drop of 3.3 V using multiple V<sub>GS</sub> or V<sub>SG</sub> diode-connected drops (either 740 mV or 690 mV), depending on the MOSFET used and how many times it is utilized</em>.</p>
+<p>Let's do the math. We can see that if I used 2 NMOS and 2 PMOS in diode connected configuration as my bias leg, that adds up to:</p>
+<p><a id="eqn-02"></a></p>
+<div class="arithmatex">\[\tag{2} V_{SUP,min} = 2 * V_{GS,n} + 2 * V_{SG,p} = 2 * (740m + 690m) = 2.86 V\]</div>
+<p>That's almost amounts to supply of 3.3 V and clearly cannot accomodate anymore V<sub>GS</sub> drops in it. The DC annotated schematic of such a bias leg is shown in <em>Figure-06</em>.</p>
+<p><a id="fig-06"></a></p>
+<figure>
+<p><img alt="four Diode MOS Bias leg" src="../bgr-standard-assets/06_01_BiasLeg_4DiodeMOS_dark.png#only-dark" />
+<img alt="four Diode MOS Bias leg" src="../bgr-standard-assets/06_01_BiasLeg_4DiodeMOS_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-06:</strong> Two NMOS and two PMOS diode connected bias leg</p>
+</figcaption>
+</figure>
+<p>Clearly, the increase in reference current is due to the excess supply voltage left from what we computed in <a href="#eqn-02">Equation-02</a>. We computed a minimum supply of 2.86 V and that leaves <span class="arithmatex">\(V_{excess} = V_{DD} - V_{DD,min} = 3.3 - 2.86 = 0.44 V\)</span> which is distributed to all MOSFETs which results in increase of current.</p>
+<h4 id="decreasing-minimum-supply">Decreasing Minimum supply<a class="headerlink" href="#decreasing-minimum-supply" title="Permanent link">&para;</a></h4>
+<p>We don't need to constrain ourselves to 2.86 V as that is the minimum supply needed for 10 µA. <strong>This is an error-amp, and we don't care about it's small signal parameter variation with bias current.</strong></p>
+<p>The supply can go even lower than 2.86 V by generating a current lesser than 10 µA. But, there is an absolute limit dictated by the threshold voltage, beneath which you will reach the subthreshold region. That's a no go. <strong>Biasing in the subthreshold will introduce horrible threshold mismatch, which will manifest as off-set at the input. We don't want that either.</strong></p>
+<p>With this in mind, let's compute the minimum supply which is barely enough to keep all MOSFETs ON. Looking at <a href="../../mosfet/parameters/#io-device-500-nm">I/O Device — 500 nm</a> table, we see that the threshold voltage of NMOS and PMOS are 560 mV and 510 mV.</p>
+<p><a id="eqn-03"></a></p>
+<div class="arithmatex">\[\tag{3} V_{DD,min} = 2 * V_{TH,N} + 2 * V_{TH,P} = 2 * 0.56 + 2 * 0.51 = 2.14 V\]</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This is an overestimate. Looking at <a href="#fig-06">Figure-06</a>, both middle MOSFETs are suffering from body effect and their increase in threshold voltage is not accounted in <em>Equation-03</em>. It means, that the minimum limit will be slightly higher than 2.14 V.</p>
+</div>
+<p>We will see later that the actual limit is 2.63 V (See <em>Figure-07</em> for DC annotated schematic at 2.63 V supply and <a href="#fig-09">Figure-09</a> for finding this limit) from simulations. But that is just 0.7 V below supply. Not even half the supply.</p>
+<figure>
+<p><img alt="four diode MOS minimum Supply bias" src="../bgr-standard-assets/06_03_BiasLeg_4DiodeMOS_VSUPmin_2600m_dark.png#only-dark" />
+<img alt="four diode MOS minimum Supply bias" src="../bgr-standard-assets/06_03_BiasLeg_4DiodeMOS_VSUPmin_2600m_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-07:</strong> Four diode connected MOSFET at minimum possible supply</p>
+</figcaption>
+</figure>
+<p>Notice that in <em>Figure-07</em>, both the middle MOSFETs are in sub-threshold (<strong><em>Region=3</em></strong>).</p>
+<p>Now, we have two options:</p>
+<ul>
+<li>Accept 2.63 V as the minimum supply for error-amp and thus the reference.</li>
+<li>Decrease it even further by removing a V<sub>GS</sub> drop.</li>
+</ul>
+<p>Let's explore the second option, because I like to aim for a minimum supply close to V<sub>DD</sub>/2.</p>
+<h4 id="removing-1-vgs-drop">Removing 1 V<sub>GS</sub> drop<a class="headerlink" href="#removing-1-vgs-drop" title="Permanent link">&para;</a></h4>
+<p>If we removed a V<sub>GS</sub> (or 1 diode connected MOSFET) drop from <a href="#eqn-02">Equation-02</a>, we can go even lower than 2.63 V limit dictated by threshold voltage.</p>
+<p>We can remove middle PMOS or middle NMOS, but, I am going to remove middle PMOS as the middle NMOS can be used as a cascode bias reference for current sink used in Diff-amp (Follow along, you will see this shortly).</p>
+<div class="arithmatex">\[\tag{4} V_{DD,min} = 2 * V_{TH,N} + V_{TH,P} = 2 * 0.56 + 0.51 = 1.63 V\]</div>
+<p>Atleast now we can theoretically expect a minimum supply close to V<sub>DD</sub>/2.</p>
+<p><a id="fig-08"></a></p>
+<figure>
+<p><img alt="Three diode MOS bias leg" src="../bgr-standard-assets/06_02_BiasLeg_3DiodeMOS_dark.png#only-dark" />
+<img alt="Three diode MOS bias leg" src="../bgr-standard-assets/06_02_BiasLeg_3DiodeMOS_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-08:</strong> Two NMOS and one PMOS diode connected bias leg</p>
+</figcaption>
+</figure>
+<p>The construction of such a bias leg is shown is <em>Figure-08</em>. The bias current generated is 31.5 µA for supply of 3.3 V.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice that the length of bottom transistor is increased to four times by keeping four NMOS in series, and middle one is increased to two times similarly.</p>
+<p>This is made to reduce the bias current generated. Had I used just the minimum length, the bias current would have increased, considering now it needs to split 3.3 V between just 3 MOSFETs.</p>
+</div>
+<details class="note">
+<summary>Note</summary>
+<p>I did this roundabout way, because I got lazy in picking another size with longer length. Keeping MOSFETs in series to increase length is perfectly valid. [<em>Ref. CMOS Circuit Design, Layout and Simulation, Fig 20.35</em>]</p>
+</details>
+<h4 id="bias-leg-performance-across-supply">Bias Leg Performance across supply<a class="headerlink" href="#bias-leg-performance-across-supply" title="Permanent link">&para;</a></h4>
+<p>Sweeping the supply for <a href="#fig-06">Figure-06</a> and <a href="#fig-08">Figure-08</a> bias leg configurations over 2.5 V to 3.3 V yields <em>Figure-09</em>.</p>
+<p><a id="fig-09"></a></p>
+<figure>
+<p><img alt="Supply dependance of Bias Leg" src="../bgr-standard-assets/07_ID_Vs_VSUP_BiasLeg_dark.svg#only-dark" />
+<img alt="Supply dependance of Bias Leg" src="../bgr-standard-assets/07_ID_Vs_VSUP_BiasLeg_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-09:</strong> Performance of Bias Leg of <a href="#fig-06">Figure-06</a> and <a href="#fig-08">Figure-08</a> over supply</p>
+</figcaption>
+</figure>
+<p>Clearly, <a href="#fig-06">four diode connected bias leg</a> touches nA range (1 µA is the border to nA range) at 2.63 V while the <a href="#fig-08">three diode connected bias leg</a> is still in µA range, i.e., all MOSFETs are still ON.</p>
+<h4 id="current-sink-from-final-bias-leg-three-diode-connected">Current Sink from final bias leg (three diode connected)<a class="headerlink" href="#current-sink-from-final-bias-leg-three-diode-connected" title="Permanent link">&para;</a></h4>
+<figure>
+<p><img alt="Cascode Current Sink TB" src="../bgr-standard-assets/08_01_Simple_vs_Cascode_TB_dark.png#only-dark" />
+<img alt="Cascode Current Sink TB" src="../bgr-standard-assets/08_01_Simple_vs_Cascode_TB_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-10:</strong> Cascode Current Sink biased by bias Leg of <a href="#fig-08">Figure-08</a> Test bench</p>
+</figcaption>
+</figure>
+<p>The performance of current sink (both simple and cascoded) seen <em>Figure-11</em> shows that <strong><em>both cascode and simple current sink needs the same minimum voltage of 0.6 V</em></strong>.</p>
+<figure>
+<p><img alt="Current Sink Performance" src="../bgr-standard-assets/08_02_Simple_vs_Cascode_Results_dark.svg#only-dark" />
+<img alt="Current Sink Performance" src="../bgr-standard-assets/08_02_Simple_vs_Cascode_Results_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-11:</strong> Simple and Cascoded Current sink performance</p>
+</figcaption>
+</figure>
+<div class="admonition success">
+<p>With that being the case, there is absolutely no reason to avoid cascoded current sink.</p>
+</div>
+<h3 id="error-amp-icmr">Error Amp ICMR<a class="headerlink" href="#error-amp-icmr" title="Permanent link">&para;</a></h3>
+<p>Now we just need to see whether 0.777 V is in ICMR of our level shifted NMOS Diff-amp. <em>Figure-12</em> shows the full schematic of error amp in ICMR measurement configuration and <em>Figure-13</em> shows the simplified schematic of ICMR testbench.</p>
+<p><a id="fig-12"></a></p>
+<figure>
+<p><img alt="Error Amp Schematic" src="../bgr-standard-assets/10_NMOS_LevelShifter_DiffAmp_dark.png#only-dark" />
+<img alt="Error Amp Schematic" src="../bgr-standard-assets/10_NMOS_LevelShifter_DiffAmp_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-12:</strong> Schematic diagram of Error Amplifier</p>
+</figcaption>
+</figure>
+<figure>
+<p><img alt="ICMR TB simplified" src="../bgr-standard-assets/11_ICMR_TB_dark.svg#only-dark" />
+<img alt="ICMR TB simplified" src="../bgr-standard-assets/11_ICMR_TB_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-13:</strong> Simplified schematic of ICMR Test bench</p>
+</figcaption>
+</figure>
+<p>In order to justify the need of a level shifter, I have included the results of ICMR measurements for a simple NMOS diff-amp of <a href="#fig-03">Figure-03</a> (only the NMOS Input case) in <em>Figure-14(a)</em>.</p>
+<p><img alt="ICMR Results - 1" src="../bgr-standard-assets/12_01_ICMR_Results_withWithout_LevelShifter_dark.svg#only-dark" />
+<img alt="ICMR Results - 1" src="../bgr-standard-assets/12_01_ICMR_Results_withWithout_LevelShifter_light.svg#only-light" /></p>
+<figure>
+<p><img alt="ICMR Results - 2" src="../bgr-standard-assets/12_02_ICMR_Vsup_2500mV_dark.svg#only-dark" />
+<img alt="ICMR Results - 2" src="../bgr-standard-assets/12_02_ICMR_Vsup_2500mV_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-14:</strong> ICMR measurements for: (a) NMOS Diff-amp without level shifted inputs, (b) With level shifted inputs and (c) level shifted input variant at a supply of 2.5 V</p>
+</figcaption>
+</figure>
+<p>Some observations on <em>Figure-14</em>:</p>
+<ol>
+<li>Simple NMOS Diff-amp without level shifter has an ICMR of 1.6 V to 3.3 V (<em>Figure-14(a)</em>). <strong>Clearly doesn't include 0.777 V in it.</strong></li>
+<li>The level shifted variant has an ICMR of 0 V to 2.72 V. The upper limit is due to level shifter as it needs the gate voltage sufficiently lower to keep the level shifting PMOS ON (<em>Figure-14(b)</em>).</li>
+<li><em>Figure-14(c)</em> shows ICMR at a supply of 2.5 V (&lt; 3.3 V). The ICMR is 0 V to 2.0 V roughly. Again limited by level shifter.</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">Success</p>
+<p>The level shifted variant includes 0.777 V in it's ICMR.</p>
+</div>
+<p>To summarize:</p>
+<figure>
+<table>
+<thead>
+<tr>
+<th>V<sub>DD</sub></th>
+<th>ICMR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.3 V</td>
+<td>0 V to 2.7 V</td>
+</tr>
+<tr>
+<td>2.5 V</td>
+<td>0 V to 2.0 V</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-03:</strong> ICMR summary for two cases of supply for Error-amp of <a href="#fig-12">Figure-12</a></p>
+</figcaption>
+</figure>
+<h2 id="startup-circuit-design">Startup circuit design<a class="headerlink" href="#startup-circuit-design" title="Permanent link">&para;</a></h2>
+<p>Since the reasoning behind creating the startup circuit is thoroughly explained in the <a href="../bmr/#startup-circuit-design">Startup Circuit Design</a> section of <a href="../bmr/">BMR</a>, I won't waste time and space to repeat it here. </p>
+<figure>
+<p><img alt="Startup circuit schematic" src="../bgr-standard-assets/13_StartupCircuit_dark.png#only-dark" />
+<img alt="Startup circuit schematic" src="../bgr-standard-assets/13_StartupCircuit_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-15:</strong> Startup circuit schematic</p>
+</figcaption>
+</figure>
+<p>However, I will provide commentary on <em>Figure-15</em> to explain some choices in brief:</p>
+<ol>
+<li>V<sub>bias</sub> node is the Gate of Current sourcing PMOS (also the output node of error-amp). When the BGR has started up, the PMOS is biased to give 5 µA (as set by resistor, R<sub>1</sub>. See <a href="#fig-17">Figure-17</a>). V<sub>bias</sub> receives appropriate voltage to set this current due to feedback loop.</li>
+<li>
+<p>When BGR has started up, you want to shut your leaker PMOS, and so, you need to pull it's Gate (or output of startup circuit) towards V<sub>DD</sub>. This is achieved by keeping three <code>1/3</code> sized diode connected NMOS, which cannot sink 5 µA and hence push the output to supply.</p>
+<details class="note">
+<summary>Note</summary>
+<p>Keeping three diode connected NMOS in pull down shouldn't surprise you. Recall the discussion in <a href="./#bias-leg-design">Bias-leg Design</a>, where we saw that many diode connected V<sub>GS</sub> drops are needed to completely drop the supply of 3.3 V. That value for supply is huge, compared to what we get in core devices (L<sub>min</sub> = 65 nm, V<sub>DD</sub> = 1.2 V).</p>
+<p>So, <strong><em>it is very common to keep multiple diode connected MOSFETs in series especially in Long Channel design (or higher supply voltage designs).</em></strong></p>
+<p>I would even say it is the recommended way to do this, than keeping 1 ridiculously long MOSFET to completely drop the supply to Ground.</p>
+</details>
+</li>
+<li>
+<p>The leaker PMOS is taken <code>1/1</code> because just by this ratio, it gave about 70 µA (See <em>Figure-16, Right half</em>), more than enough to pull the voltage of regulated node up to start the circuit.</p>
+<div class="admonition danger">
+<p class="admonition-title">WARNING - Think of this 70 µA as a figure of merit for sizing this MOSFET and nothing more</p>
+<p>There is no DC path to conduct such a large current. See the discussion on <a href="../bmr/#leaker-nmos-testbench">Leaker NMOS Testbench</a> in <a href="../bmr/">BMR</a> to understand this statement. Especially the associated <a href="../bmr/#danger-01">Warning at the end of that section</a> for more info.</p>
+<p><strong><em>In actual reality, it would leak few hundred nA at best. Nothing more.</em></strong></p>
+</div>
+</li>
+</ol>
+<figure>
+<p><img alt="Leaker MOS Design TB" src="../bgr-standard-assets/19_DCAnnotated_LeakerPMOS_dark.png#only-dark" />
+<img alt="Leaker MOS Design TB" src="../bgr-standard-assets/19_DCAnnotated_LeakerPMOS_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-16:</strong> Current leaked by a 1/1 PMOS</p>
+</figcaption>
+</figure>
+<p>See the discussion on <a href="../bmr/#leaker-nmos-testbench">Leaker NMOS Testbench</a> for more information regarding the testbench seen in <em>Figure-16</em>.</p>
+<p>By now, our PTAT current generator design is finished, and <em>Figure-17</em> shows the DC annotated Schematic.</p>
+<p><a id="fig-17"></a></p>
+<figure>
+<p><img alt="DC Annotated schematic PTAT Current" src="../bgr-standard-assets/18_DCAnnotated_PTAT_Generator_dark.png#only-dark" />
+<img alt="DC Annotated schematic PTAT Current" src="../bgr-standard-assets/18_DCAnnotated_PTAT_Generator_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-17:</strong> DC Annotated schematic of PTAT current generator portion of BGR</p>
+</figcaption>
+</figure>
+<div class="admonition danger">
+<p class="admonition-title">Sometimes, even DC Op Point needs a startup circuit</p>
+<p>If you ever see that your current generator doesn't bias up to it's operating point, try to replace your error-amp with an ideal VCVS of appropriate gain (say 10,000). Generally a VCVS biases up the current generator without the need of a startup.</p>
+<p>But if even that fails, <strong>do add a startup circuit</strong> as it at least tries to induce a voltage to startup the circuit. It could be useful to troubleshoot the error.</p>
+</div>
+<h2 id="fixing-ptat-voltage-source-resistor-r2">Fixing PTAT Voltage Source resistor, R<sub>2</sub><a class="headerlink" href="#fixing-ptat-voltage-source-resistor-r2" title="Permanent link">&para;</a></h2>
+<p>The resistor value for R<sub>2</sub> is fixed by aiming for ZTC (Zero Temperature Co-efficient) operating point for output. </p>
+<p>The output is made up of:</p>
+<ul>
+<li>CTAT Voltage source by bottom PNP Diode (8 in parallel).</li>
+<li>PTAT Voltage source by resistor R<sub>2</sub>.</li>
+</ul>
+<p>Looking at <a href="#fig-01">Figure-01</a>, we can write,</p>
+<div class="arithmatex">\[V_{OUT} = V_{Q_3} + V_{R_2}\]</div>
+<div class="arithmatex">\[V_{OUT} = V_{Q_{3}} + L * \eta * V_T * \ln K\]</div>
+<p>where, <span class="arithmatex">\(L = R_2/R_1\)</span> and <span class="arithmatex">\(V_T\)</span> is the thermal voltage.</p>
+<p>Differentiating with respect to temperature and equating to zero (to find ZTC point) yields,</p>
+<div class="arithmatex">\[\frac{\delta V_{OUT}}{\delta T} = \frac{\delta V_{Q_3}}{\delta T} + L * \eta * \ln K * \frac{\delta V_{T}}{\delta T} = 0\]</div>
+<p>Looking at <a href="#table-01">Table-01</a>, we get <span class="arithmatex">\(\delta V_{Q_3}/\delta T = -1.75~mV/C\)</span>, <span class="arithmatex">\(~\eta = 1003.6m~\)</span> and <span class="arithmatex">\(~K = 8\)</span>. We also know <span class="arithmatex">\(\delta V_{T}/\delta T = 0.085~mV/C\)</span>. Plugging these values in above equation yields,</p>
+<div class="arithmatex">\[-1.75m + L * 1003.6m * \ln 8 * 0.085m = 0\]</div>
+<div class="arithmatex">\[L = 9.865\]</div>
+<p>From L and R<sub>1</sub>, we get,</p>
+<div class="arithmatex">\[R_2 = L * R_1 = 9.865 * 10.9k \approx 107.5k\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This value of R<sub>2</sub> is just a starting guess. That is, we will start our design with this value, and later adjust it to get better temperature performance in iterations.</p>
+</div>
+<h2 id="dc-simulations">DC Simulations<a class="headerlink" href="#dc-simulations" title="Permanent link">&para;</a></h2>
+<p>Since we hand calculated the value of R<sub>2</sub>, we have to iterate to get better temperature performance. You will see what this means shortly.</p>
+<h3 id="iteration-1">Iteration 1<a class="headerlink" href="#iteration-1" title="Permanent link">&para;</a></h3>
+<p>Let's summarise the parameters calculated for design till now:</p>
+<p><a id="table-04"></a></p>
+<figure>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R<sub>1</sub></td>
+<td>10.9 kΩ</td>
+</tr>
+<tr>
+<td>R<sub>2</sub></td>
+<td>107.5 kΩ</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-04:</strong> Values of Resistors R<sub>1</sub> and R<sub>2</sub> for iteration 1</p>
+</figcaption>
+</figure>
+<p>The schematic diagram with the values in <em>Table-04</em> is shown in <em>Figure-18.</em></p>
+<p><a id="fig-18"></a></p>
+<figure>
+<p><img alt="BGR Schematic - 1" src="../bgr-standard-assets/14_BGR_01_Iteration1_schematic_dark.png#only-dark" />
+<img alt="BGR Schematic - 1" src="../bgr-standard-assets/14_BGR_01_Iteration1_schematic_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-18:</strong> Series BGR schematic for iteration 1. Resistor values from Table-04</p>
+</figcaption>
+</figure>
+<p>And the output voltage vs temperature can be seen in <em>Figure-19.</em></p>
+<p><a id="fig-19"></a></p>
+<figure>
+<p><img alt="BGR temperature performance - 1" src="../bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_01_dark.svg#only-dark" />
+<img alt="BGR temperature performance - 1" src="../bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_01_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-19:</strong> BGR output performance across temperature for values of resistors in Table-04</p>
+</figcaption>
+</figure>
+<p>Clearly, the output is showing PTAT nature instead of the characteristic bow. </p>
+<p>Even though the output is more or less constant, i.e., around <span class="arithmatex">\(1.2695~V \pm 5~mV\)</span>, the temperature co-efficient is still not that good: <strong>104.62 ppm/°C</strong></p>
+<p>Let's iterate.</p>
+<h3 id="iteration-2">Iteration 2<a class="headerlink" href="#iteration-2" title="Permanent link">&para;</a></h3>
+<p><strong><em>This is purely a trial and error process. But there is still some logic to it</em></strong>. Also, we will touch only the output PTAT voltage source resistor, R<sub>2</sub>.</p>
+<div class="admonition danger">
+<p class="admonition-title">DO NOT TOUCH PTAT CURRENT GENERATOR RESISTOR, R<sub>1</sub></p>
+<p>Do not touch R<sub>1</sub> as it sets the bias current in PTAT Current generator portion. Our calculations in <a href="./#fixing-ptat-voltage-source-resistor-r2">Fixing PTAT Voltage Source resistor, R2</a> section depends on parameters for PNP Diodes listed in <a href="#table-01">Table-01</a>, which clearly characterized the PNP Diode for a bias current of 5 µA.</p>
+<p>This bias current is set by value of R<sub>1</sub> and as such, <strong><em>changing this changes the bias current</em></strong>, and renders <a href="#table-01">Table-01</a> as useless. <strong>DO NOT CHANGE THIS IN ANY ITERATION</strong>.</p>
+<p>And if you do, regenerate <a href="#table-01">Table-01</a> for your new operating point and recalculate an initial value for R<sub>2</sub> as PNP diodes now have different characteristics!</p>
+</div>
+<p>Before we change R<sub>2</sub>, let's look at the kind of output we expect from BGR.</p>
+<p><a id="fig-20"></a></p>
+<figure>
+<p><img alt="BGR Characteristic BOW" src="../bgr-standard-assets/21_BGR_CharacteristicBow_dark.svg#only-dark" />
+<img alt="BGR Characteristic BOW" src="../bgr-standard-assets/21_BGR_CharacteristicBow_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-20:</strong> Characteristic bow in the output curve of a bandgap reference across temperature [Ref. Designing Analog Chips, Hans Camenzind, Fig. 7-6]</p>
+</figcaption>
+</figure>
+<p>Comparing <a href="#fig-19">Figure-19</a> and <em>Figure-20</em> we can see that the output curve is PTAT and is just the left portion of what we expect to get. So, we need to move towards the bow flat portion (maximum value point) by varying R<sub>2</sub>.</p>
+<p>To that end, try:</p>
+<ul>
+<li>Increasing R<sub>2</sub> by considerable amount (say 50 kΩ or even 100 kΩ), and re-simulate. See if you get the right portion of <em>Figure-20</em>, that is whether <a href="#fig-19">Figure-19</a> has changed to CTAT curve instead of PTAT curve.<ul>
+<li>If it did, we know that Bow characteristic lies between initial R<sub>2</sub> value of 107.5 kΩ and this new value, and so start to fine tune it in this range to get the desired curve.</li>
+<li>If it still remained PTAT, then you adapt and do the opposite.</li>
+</ul>
+</li>
+<li>Decreasing R<sub>2</sub> should be considered after you first try increasing it. </li>
+</ul>
+<p>In this design, increasing had no effect and I adapted and started decreasing. For example, see <em>Figure-21</em> which shows a <strong><em>CTAT like</em></strong> output instead of the PTAT one from <a href="#fig-19">Figure-19</a> for reducing R<sub>2</sub> value from 107.5 kΩ to 80 kΩ.</p>
+<p><a id="fig-21"></a></p>
+<figure>
+<p><img alt="BGR temperature performance for 80k" src="../bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_02_80k_dark.svg#only-dark" />
+<img alt="BGR temperature performance for 80k" src="../bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_02_80k_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-21:</strong> BGR output performance across temperature for reducing R<sub>2</sub> from 107.5 kΩ (<a href="#table-04">Table-04</a> value) to 80 kΩ</p>
+</figcaption>
+</figure>
+<div class="admonition success">
+<p>From <a href="#fig-19">Figure-19</a> and <em>Figure-21</em>, we see that our correct value of R<sub>2</sub> to attain characteristic bow lies within 80 kΩ and 107.5 kΩ. That is:</p>
+<div class="arithmatex">\[80 ~k\Omega &lt; R_2 &lt; 107.5 ~k\Omega\]</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">CAUTION - Sometimes the characteristic bow can be inverted</p>
+<p>Below, I have included an <strong><em>inverted bow</em></strong> which I got while designing the parallel realized BGR.</p>
+<figure>
+<p><img alt="Inverted BGR Bow" src="../bgr-standard-assets/22_Inverted_BGR_Bow_dark.svg#only-dark" />
+<img alt="Inverted BGR Bow" src="../bgr-standard-assets/22_Inverted_BGR_Bow_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-22:</strong> Inverted Bow output of parallel realized BGR (V<sub>out</sub> = 0.61 V) (QUCS-S/NGSPICE)</p>
+</figcaption>
+</figure>
+<p>I know <em>Figure-22</em> seems unreal considering none of the textbooks cover an inverted bow as an output of BGR.</p>
+<p>My point of showing this here, is to give an example where increasing R<sub>2</sub> (or decreasing) may result in an inverted bow as seen in <em>Figure-22</em> and opposite to what is expected as shown in <a href="#fig-20">Figure-20</a>.</p>
+<p>Is the inverted bow correct? <strong><em>NO IDEA</em></strong></p>
+<p>I suspect that this is due to the type of resistor I used here, which is a <strong><em>High Resistivity Poly resistor.</em></strong> There are other variants available in 65 nm CMOS process like simple N+ and P+ poly, N-well resistors. But I chose the above one to save layout area.</p>
+<p>See this <a href="https://www.reddit.com/r/chipdesign/comments/1qsv879/bizarre_bow_characteristics_of_bgr_output_supply/?utm_source=share&amp;utm_medium=web3x&amp;utm_name=web3xcss&amp;utm_term=1&amp;utm_content=share_button">Reddit post</a>. It tries to find an answer for this. Maybe you can find a clue there.</p>
+</div>
+<div class="admonition success">
+<p>With the preceeding discussion, I narrowed down value of R<sub>2</sub> to 99 kΩ.</p>
+</div>
+<p>Let's summarize the new values:</p>
+<figure>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R<sub>1</sub></td>
+<td>10.9 kΩ</td>
+</tr>
+<tr>
+<td>R<sub>2</sub></td>
+<td>99 kΩ</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-05:</strong> Values of Resistors R<sub>1</sub> and R<sub>2</sub> for iteration 2</p>
+</figcaption>
+</figure>
+<p>Changing R<sub>2</sub> in <a href="#fig-18">Figure-18</a> with the value in <em>Table-05</em> (99 kΩ) yields:</p>
+<figure>
+<p><img alt="BGR temperature performance - 2" src="../bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_02_dark.svg#only-dark" />
+<img alt="BGR temperature performance - 2" src="../bgr-standard-assets/16_BGR_output_TemperatureDependance_Iteration_02_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-23:</strong> BGR output performance across temperature for values of resistors in Table-05</p>
+</figcaption>
+</figure>
+<p>Temperature performance seen in <em>Figure-23</em> is leagues above what we saw in <a href="#fig-19">Figure-19</a> or <a href="#fig-21">Figure-21</a>.</p>
+<p>The output is about <span class="arithmatex">\(1.2227 \pm 475 \mu V\)</span> with a temperature co-efficient of <strong>19.416 ppm/°C</strong>.</p>
+<p>Now that we got the characteristic bow, let's also see the supply dependance.</p>
+<h3 id="supply-dependance">Supply Dependance<a class="headerlink" href="#supply-dependance" title="Permanent link">&para;</a></h3>
+<p>Sweeping the supply from GND to V<sub>DD</sub> (3.3 V), yields <em>Figure-24</em>.</p>
+<figure>
+<p><img alt="BGR output supply Performance" src="../bgr-standard-assets/15_BGR_output_SupplyDependance_dark.svg#only-dark" />
+<img alt="BGR output supply Performance" src="../bgr-standard-assets/15_BGR_output_SupplyDependance_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-24:</strong> BGR output vs Supply</p>
+</figcaption>
+</figure>
+<p>It seems that we can go as low as V<sub>DD</sub>/2 (1.65 V) but the output is considerably lower than what's at V<sub>DD</sub> (3.3 V). This is inevitable considering we really tried to aim for half the supply when designing the error-amp (See the discussion on <a href="./#decreasing-minimum-supply">Decreasing Minimum supply</a>), but still, the output is only slightly less than 1.2 V.</p>
+<p>I am not claiming V<sub>DD</sub>/2 in our operating range, just, it is not bad.</p>
+<h2 id="transient-simulation-startup-action">TRANSIENT SIMULATION - Startup Action<a class="headerlink" href="#transient-simulation-startup-action" title="Permanent link">&para;</a></h2>
+<p>Once again, the error-amp in feedback loop must be compensated as discussed in <a href="../bmr/#using-mosfet-as-a-capacitor-to-compensate-the-feedback-loop">Using MOSFET as a capacitor to compensate the feedback loop</a>. Please review that section as repeating it here will result in redundancy.</p>
+<p>There, the discussion leaned towards PMOS as a capacitor due to current spikes. But in here, I don't care about the current but the voltage and so, I am going to lean towards an NMOS as a capacitor noting that the output of error-amp where we connect this, is at 2.67 V (See <a href="#fig-17">Figure-17</a>).</p>
+<p>And looking at <a href="../../mosfet/parameters/#io-device-500-nm_1">I/O MOSFET as a capacitor</a> table (repeated here in <em>Table-06</em> for convenience), we can clearly see that:</p>
+<ul>
+<li>PMOS will behave poorly as a capacitor considering it needs a voltage less than 2.4 V whereas the voltage here is 2.67 V.</li>
+<li>NMOS will behave greatly as it is strongly inverted and more or less retains it's nominal value of 87.2 fF at all times.</li>
+</ul>
+<figure>
+<table>
+<thead>
+<tr>
+<th>Flavour</th>
+<th>Drawn Size</th>
+<th>Actual Size</th>
+<th>V<sub>G</sub></th>
+<th>Nominal Capacitance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NMOS</td>
+<td>8 / 8</td>
+<td>4 µm / 4 µm</td>
+<td>&gt; 0.81 V</td>
+<td>87.2 fF</td>
+</tr>
+<tr>
+<td>PMOS</td>
+<td>8 / 8</td>
+<td>4 µm / 4 µm</td>
+<td>&lt; 2.40 V</td>
+<td>82.7 fF</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-06:</strong> MOSFET capacitance for specific sizes and Voltage conditions</p>
+</figcaption>
+</figure>
+<p>Also, just to solidify this statement, <em>Figure-25</em> shows C-V Curve of <code>8/8</code> I/O NMOS as a capacitor.</p>
+<figure>
+<p><img alt="I/O NMOS CV Curve" src="../bgr-standard-assets/20_01_NMOS_CVCurve_8by8_dark.svg#only-dark" />
+<img alt="I/O NMOS CV Curve" src="../bgr-standard-assets/20_01_NMOS_CVCurve_8by8_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-25:</strong> NMOS CV Curve for 8/8 size</p>
+</figcaption>
+</figure>
+<p>And clearly NMOS attains it's nominal value and is guaranteed to retain it for this case.</p>
+<p>And in this case, I am going to keep 5 such NMOS (each <code>8/8</code>) in parallel to obtain a nominal capacitance of 435.9 fF (close to 450 fF). </p>
+<p>The observant reader would have already spotted this capacitor in <a href="#fig-18">Figure-18</a>.</p>
+<details class="note">
+<summary>Note</summary>
+<p>I found this 450 fF by just slapping an ideal capacitor of that value in place of NMOS capacitor and simulating a startup action. It's recommended to start with 500 fF and then possibly step up or step down in 100 fF or 50 fF steps while seeing startup action. I chose a suitable value in this way, and then constructed that value using NMOS/PMOS unit sizes characterized in <a href="../../mosfet/parameters/#mosfet-as-capacitor">MOSFET as Capacitor</a> section of <a href="../../mosfet/parameters/#mosfet-sizes-parameter-summary">MOSFET Sizes &amp; Parameter Summary</a> page.</p>
+</details>
+<p>The startup action with this size NMOS as a capacitor is seen in <em>Figure-26.</em></p>
+<figure>
+<p><img alt="BGR Startup action" src="../bgr-standard-assets/17_BGR_StartupAction_dark.svg#only-dark" />
+<img alt="BGR Startup action" src="../bgr-standard-assets/17_BGR_StartupAction_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-26:</strong> Startup transient with five 8/8 NMOS in parallel (Nominal Capictance of 435.9 fF)</p>
+</figcaption>
+</figure>
+<p><strong><em>To simulate the circuit turning ON case, supply starts to turn ON at 30 ns with a rise time of 10 ns to reach V<sub>DD</sub> at 40 ns.</em></strong></p>
+<p>From <em>Figure-26</em> the reference is stable and ON around the 80 ns mark.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="BGR Complete schematic" src="../bgr-standard-assets/14_BGR_02_FULL_schematic_dark.png#only-dark" />
+<img alt="BGR Complete schematic" src="../bgr-standard-assets/14_BGR_02_FULL_schematic_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-27:</strong> Complete schematic of BGR</p>
+</figcaption>
+</figure>
+<p>The design of BGR is complete. The parameters of series BGR are summarised in <em>Table-07</em>.</p>
+<figure>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V<sub>REF</sub></td>
+<td><span class="arithmatex">\(1.2227 \pm 475 \mu V\)</span></td>
+<td>Generated output Voltage</td>
+</tr>
+<tr>
+<td>TC<sub>BGR</sub></td>
+<td>19.416 ppm/°C</td>
+<td>Temperature co-efficient of generated voltage</td>
+</tr>
+<tr>
+<td>R<sub>1</sub></td>
+<td>10.9 kΩ</td>
+<td>PTAT Current Generator resistor</td>
+</tr>
+<tr>
+<td>R<sub>2</sub></td>
+<td>99 kΩ</td>
+<td>PTAT Voltage Source resistor</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-07:</strong> Series BGR Parameter summary</p>
+</figcaption>
+</figure>
+<h2 id="qucs-s-ngspice-simulations">QUCS-S / NGSPICE simulations<a class="headerlink" href="#qucs-s-ngspice-simulations" title="Permanent link">&para;</a></h2>
+<p>This circuit is also built and tested in <a href="https://ra3xdh.github.io/">QUCS-S</a> / <a href="https://ngspice.sourceforge.io/">NGSPICE</a> and the simulation results are available in <a href="https://drive.google.com/file/d/1QoPZJEZDFVu5yi8JduprD3KL3qRF8O8b/view?usp=drive_link">this document</a>.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../general-bias/" class="md-footer__link md-footer__link--prev" aria-label="Previous: General Bias Circuit">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                General Bias Circuit
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../bgr-low-voltage/" class="md-footer__link md-footer__link--next" aria-label="Next: Parallel Bandgap Reference (0.6V)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Parallel Bandgap Reference (0.6V)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright, &copy; 2026, Arunpandian A. Licensed under CC BY 4.0 &nbsp;·&nbsp; Analog IC Design Engineer (Fresher), India
+
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/arunpandian-801/QUCS-65nm-Workspace" target="_blank" rel="noopener" title="QUCS-S Workspace on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

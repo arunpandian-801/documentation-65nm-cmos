@@ -1,0 +1,1839 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Beta Multiplier Reference (BMR) — supply-independent bias current circuit on 65nm custom CMOS, designed and simulated on Cadence Virtuoso and Spectre.">
+      
+      
+        <meta name="author" content="Arunpandian">
+      
+      
+        <link rel="canonical" href="https://arunpandian-801.github.io/documentation-65nm-cmos/references/bmr/">
+      
+      
+        <link rel="prev" href="../../mosfet/BJT-parameters/">
+      
+      
+        <link rel="next" href="../general-bias/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../overrides/assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Beta Multiplier Reference - Arunpandian — Analog IC Design</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=DM+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"DM Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#beta-multiplier-reference-bmr" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Arunpandian — Analog IC Design" class="md-header__button md-logo" aria-label="Arunpandian — Analog IC Design" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4h10c1.11 0 2 .89 2 2v2h-3.41L16 10.59v4l-2 2V20h-4v-3.41l-2-2V9.41l2-2zm8 7.41V14h4v-4h-2.59zM6.59 8 8 6.59V4H4c-1.11 0-2 .89-2 2v2zM6 14v-4H2v4zm2 3.41L6.59 16H2v2c0 1.11.89 2 2 2h4zM17.41 16 16 17.41V20h4c1.11 0 2-.89 2-2v-2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arunpandian — Analog IC Design
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Beta Multiplier Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/arunpandian-801/QUCS-65nm-Workspace" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    QUCS-65nm-Workspace
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mosfet/parameters/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  IC Characterization
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  References & Bias Circuits
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../amplifiers/rtr-opamp/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Amplifiers
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../oscillators/csvco/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Oscillators
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Arunpandian — Analog IC Design" class="md-nav__button md-logo" aria-label="Arunpandian — Analog IC Design" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4h10c1.11 0 2 .89 2 2v2h-3.41L16 10.59v4l-2 2V20h-4v-3.41l-2-2V9.41l2-2zm8 7.41V14h4v-4h-2.59zM6.59 8 8 6.59V4H4c-1.11 0-2 .89-2 2v2zM6 14v-4H2v4zm2 3.41L6.59 16H2v2c0 1.11.89 2 2 2h4zM17.41 16 16 17.41V20h4c1.11 0 2-.89 2-2v-2z"/></svg>
+
+    </a>
+    Arunpandian — Analog IC Design
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/arunpandian-801/QUCS-65nm-Workspace" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    QUCS-65nm-Workspace
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IC Characterization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IC Characterization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mosfet/parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sizes & Parameter Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mosfet/BJT-parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parasitic BJT Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    References & Bias Circuits
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    References & Bias Circuits
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beta Multiplier Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beta Multiplier Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-resistor-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing Resistor value
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing Resistor value">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#substitution-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Substitution theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resistance-computation-testbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resistance computation testbench
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dc-simulations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DC Simulations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DC Simulations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supply-dependance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supply Dependance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#startup-circuit-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup Circuit Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Startup Circuit Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#startup-pull-up-and-pull-down-testbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup Pull up and Pull Down Testbench
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leaker-nmos-testbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leaker NMOS Testbench
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transient-simulation-startup-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transient Simulation - Startup Action
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transient Simulation - Startup Action">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-mosfet-as-a-capacitor-to-compensate-the-feedback-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using MOSFET as a capacitor to compensate the feedback loop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using MOSFET as a capacitor to compensate the feedback loop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-with-a-capacitor-to-gnd-or-nmos-capacitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens with a capacitor to GND (or NMOS Capacitor)?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-with-a-capacitor-to-vdd-or-pmos-capacitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens with a capacitor to VDD (or PMOS Capacitor)?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#which-one-should-you-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which one should you use?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../general-bias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    General Bias Circuit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bgr-standard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Bandgap Reference (1.22V)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bgr-low-voltage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parallel Bandgap Reference (0.6V)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Amplifiers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Amplifiers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../amplifiers/rtr-opamp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rail-to-Rail Op-Amp
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oscillators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Oscillators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oscillators/csvco/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current Starved Ring VCO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-resistor-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixing Resistor value
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing Resistor value">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#substitution-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Substitution theorem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resistance-computation-testbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resistance computation testbench
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dc-simulations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DC Simulations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DC Simulations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supply-dependance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supply Dependance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#startup-circuit-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup Circuit Design
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Startup Circuit Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#startup-pull-up-and-pull-down-testbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup Pull up and Pull Down Testbench
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leaker-nmos-testbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leaker NMOS Testbench
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transient-simulation-startup-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transient Simulation - Startup Action
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transient Simulation - Startup Action">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-mosfet-as-a-capacitor-to-compensate-the-feedback-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using MOSFET as a capacitor to compensate the feedback loop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using MOSFET as a capacitor to compensate the feedback loop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-with-a-capacitor-to-gnd-or-nmos-capacitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens with a capacitor to GND (or NMOS Capacitor)?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-happens-with-a-capacitor-to-vdd-or-pmos-capacitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens with a capacitor to VDD (or PMOS Capacitor)?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#which-one-should-you-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which one should you use?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="admonition warning">
+<p class="admonition-title">Disclaimer</p>
+<p>All circuits documented here are <strong>simulation-only designs</strong> — no physical fabrication or silicon verification has been performed. Results are based on Cadence Spectre and NGSpice simulations using real foundry BSIM4 PTM 65nm models. </p>
+<p>These documents are shared for <strong>portfolio and demonstration purposes</strong> only and are not intended as educational or reference material. Use in any production or critical application without independent verification is strongly discouraged.</p>
+<p>The documentation is Licensed under <strong>CC BY 4.0</strong>, while the QUCS-S Schematics are Licensed under <strong>MIT License</strong>. Read the <code>LICENSE.txt</code> in each of these repositories for more information.</p>
+</div>
+<h1 id="beta-multiplier-reference-bmr">Beta Multiplier Reference (BMR)<a class="headerlink" href="#beta-multiplier-reference-bmr" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>I have documented only the design procedure, and anything relevant to that. For theory of operation, please refer to standard textbooks or any lectures.</p>
+<p>Before we proceed, let's take a look at the schematic of BMR.</p>
+<p><a id="fig-01"></a></p>
+<figure>
+<p><img alt="BMR Schematic Diagram" src="../bmr-assets/12_BMR_Schematic_JBK_light.svg#only-light" />
+<img alt="BMR Schematic Diagram" src="../bmr-assets/12_BMR_Schematic_JBK_dark.svg#only-dark" /></p>
+<figcaption>
+<p><strong>Figure-01:</strong> BMR Schematic Diagram [Ref. CMOS Circuit Design, Layout and Simulation, Fig 20.22]</p>
+</figcaption>
+</figure>
+<p>For designing this, we need to chose values for three things:</p>
+<ul>
+<li>Output Current</li>
+<li>MOSFET sizes (For both NMOS and PMOS) for chosen current</li>
+<li>Resistor Value</li>
+</ul>
+<p>For this documentation, the output current is chosen to be <strong>10 µA</strong>.</p>
+<p>The MOSFET sizes have already been selected for this current, and their parameters are thoroughly listed in <a href="../../mosfet/parameters/#regular-threshold-voltage-rvt">Regular Threshold Voltage (RVT)</a> table. For the sake of convenience, sizes are listed here:</p>
+<p><a id="table-01"></a></p>
+<figure>
+<table>
+<thead>
+<tr>
+<th>Flavour</th>
+<th>W/L (Drawn)</th>
+<th>W/L (Actual)</th>
+<th>I<sub>D</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NMOS</td>
+<td>43.1 / 2</td>
+<td>2.8 µm / 130 nm</td>
+<td>10 µA</td>
+</tr>
+<tr>
+<td>PMOS</td>
+<td>121.5 / 2</td>
+<td>7.9 µm / 130 nm</td>
+<td>10 µA</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-01:</strong> Sizes and Bias Current summary</p>
+</figcaption>
+</figure>
+<p>That leaves us with <strong>chosing value of resistor</strong>.</p>
+<h2 id="fixing-resistor-value">Fixing Resistor value<a class="headerlink" href="#fixing-resistor-value" title="Permanent link">&para;</a></h2>
+<p>BMR sets the current by dropping the difference in V<sub>GS</sub> of both transistors across the resistor. A Square-law driven approach is useless, as the MOSFETs we use have shorter channel.</p>
+<p>The key to designing this lies in taking advantage of two characteristics of the circuit:</p>
+<ol>
+<li>Drains of both NMOS are at same potential because of regulating action of amplifiers.</li>
+<li>We're already aware of the target current, which is 10 µA.</li>
+</ol>
+<p>Point number 2 may appear to be stating the obvious, but this will be shown to be incorrect once we remember an essential network theory concept.</p>
+<h3 id="substitution-theorem">Substitution theorem<a class="headerlink" href="#substitution-theorem" title="Permanent link">&para;</a></h3>
+<p><em>Once we know the current through and the voltage across an element in a network, we can substitute that element with an ideal current or voltage source having the same value as the original element.</em></p>
+<figure>
+<p><img alt="Subsititution theorem example" src="../bmr-assets/13_Substitution_Theorem_dark.svg#only-dark" />
+<img alt="Subsititution theorem example" src="../bmr-assets/13_Substitution_Theorem_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-02:</strong> Demonstration of substitution theorem to an arbitrary network.</p>
+</figcaption>
+</figure>
+<p>By now, it should be obvious how this will help us. We will use this in the reverse manner. <strong>We will substitue the resistor with an ideal current source of 10 µA</strong>, and then measure the voltage dropped across it. That automatically gives us the difference of V<sub>GS</sub> dropped across it.</p>
+<p>Once we know that voltage, we can compute the impedance seen into the current source, and <em>that gives us the resistance needed for BMR to generate 10 µA</em></p>
+<h3 id="resistance-computation-testbench">Resistance computation testbench<a class="headerlink" href="#resistance-computation-testbench" title="Permanent link">&para;</a></h3>
+<p>Along with substitution theorem, we will also use point number 1 to set both MOSFETs with same potential at drain.</p>
+<p>In <em>Figure-03</em>, <strong>notice how I am generating the drain potential</strong> by pumping a current of 10 µA into the left MOSFET and then copying it with an ideal VCVS of gain 1 to the right MOSFET instead of using a voltage source with some fixed value.</p>
+<figure>
+<p><img alt="BMR Resistor Value testbench" src="../bmr-assets/01_ResistorValue_dark.png#only-dark" />
+<img alt="BMR Resistor Value testbench" src="../bmr-assets/01_ResistorValue_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-03:</strong> Testbench for finding value of resistance. Annotated with DC values.</p>
+</figcaption>
+</figure>
+<p>Naturally, even this is an approximation as the drain potentials in the actual circuit will not be exactly the same because of finite gain of amplifier, but still, <em>this is a good approximation for design</em>, which will be justified when we see the result.</p>
+<p>From the Simulation results, we can see that it drops a voltage of <strong>61.4 mV</strong> to generate 10 µA.</p>
+<div class="arithmatex">\[Resistance, R = \frac{61.4 m}{10 \mu} = 6140 \Omega \approx 6.1 k\Omega\]</div>
+<p>Let's simulate just the BMR core without startup to see DC performance and what current we generate.</p>
+<h2 id="dc-simulations">DC Simulations<a class="headerlink" href="#dc-simulations" title="Permanent link">&para;</a></h2>
+<p>With the resistor value we just computed and the sizes tabulated for MOSFET, let's build it and run a DC.</p>
+<p><a id="fig-04"></a></p>
+<figure>
+<p><img alt="BMR DC Simulation" src="../bmr-assets/02_BMR_DC_dark.png#only-dark" />
+<img alt="BMR DC Simulation" src="../bmr-assets/02_BMR_DC_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-04:</strong> DC annotated schematic BMR. (Resistance adjusted to 6.2 kΩ.)</p>
+</figcaption>
+</figure>
+<p>From <em>Figure-04</em>, we can see that the drain currents are indeed 10 µA (observe only for right and left MOSFET, and not for the MOSFETs that form the amplifier). And our core design is complete.</p>
+<div class="admonition danger">
+<p class="admonition-title">Sometimes, even DC Op Point needs a startup circuit</p>
+<p>If you ever see that your current generator doesn't bias up to it's operating point, try to replace your error-amp with an ideal VCVS of appropriate gain (say 10,000). Generally a VCVS biases up the current generator without the need of a startup.</p>
+<p>But if even that fails, <strong>do add a startup circuit</strong> as it at least tries to induce a voltage to startup the circuit. It could be useful to troubleshoot the error.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong><em>Do not attempt for precise value of 10 µA</em></strong> by fine tuning the value of resistance. It is a futile thing to do as MOSFETs themselves have process variations and an IC resistor simply cannot be set to a precise value not to mention the horrible tolerance of it's nominal value. When we say the current is 10 µA, it is nominally 10 µA and it could be 9.8 µA or even 10.5 µA. <strong><em>This precise design methodology is just an illusion spread among the community and do not fall for it!</em></strong></p>
+</div>
+<h3 id="supply-dependance">Supply Dependance<a class="headerlink" href="#supply-dependance" title="Permanent link">&para;</a></h3>
+<p><em>Figure-05</em> shows the drain currents of left and right MOSFETs when supply voltage is swept from GND to V<sub>DD</sub> (1.2 V).</p>
+<p><a id="fig-05"></a></p>
+<figure>
+<p><img alt="BMR Supply Dependance" src="../bmr-assets/03_ID_VS_Supply_dark.svg#only-dark" />
+<img alt="BMR Supply Dependance" src="../bmr-assets/03_ID_VS_Supply_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-05:</strong> Drain Current vs Supply</p>
+</figcaption>
+</figure>
+<p>We can see that the supply can go as low as 0.7 V and our reference will still function.</p>
+<h2 id="startup-circuit-design">Startup Circuit Design<a class="headerlink" href="#startup-circuit-design" title="Permanent link">&para;</a></h2>
+<p>The design procedure of Startup circuit revolves around two things:</p>
+<ul>
+<li>When the circuit has not started, V<sub>GS</sub> generated for BMR NMOS will be near GND. In that case, Leaker MOSFET must be ON (or, the gate of Leaker MOSFET should be near V<sub>DD</sub>).</li>
+<li>Vice versa, when the circuit has started.</li>
+</ul>
+<p>To that end, if the gate of Leaker NMOS comes to say 100 mV, it would be near GND, and should be enough to shut it off. Of-course, in order to avoid leakage current in an OFF NMOS transistor, the gate should be pulled to almost 0 V. But, even for 100 mV, it will just leak 100's of pA which gets driven into a diode connected NMOS, and that's hardly a significant current compared to 10 µA (10 * 10<sup>6</sup> pA) which is just huge. Also, diode connected MOSFETs can easily source/sink more current with just mV level increase in their V<sub>GS</sub> (as they have low impedance).</p>
+<h3 id="startup-pull-up-and-pull-down-testbench">Startup Pull up and Pull Down Testbench<a class="headerlink" href="#startup-pull-up-and-pull-down-testbench" title="Permanent link">&para;</a></h3>
+<p>For the pull up, a diode connected PMOS is used. Now, we need this to be weak (or <strong>capable of sourcing low current compared to pull down</strong>), so, let's take a size of <code>2/10</code> (or <code>130 nm/650 nm</code>, scale factor of 65 nm).</p>
+<p>Let's see what current will this give when it's drain is at 100 mV.</p>
+<figure>
+<p><img alt="Startup Pull up and Pull Down TB" src="../bmr-assets/05_StartupDesign_DC_dark.png#only-dark" />
+<img alt="Startup Pull up and Pull Down TB" src="../bmr-assets/05_StartupDesign_DC_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-06:</strong> Testbench for choosing Pull up and Pull Down.</p>
+</figcaption>
+</figure>
+<p>To the leftmost side of <em>Figure-06</em>, you can see a Diode Connected PMOS with a Drain voltage of 100 mV. We can see that the current it sources in this case is just 5.84 µA.</p>
+<p>This is good, as our pull down NMOS, when used with standard size listed in <a href="#table-01">Table-01</a> , it tries to sink 10 µA. <strong><em>Clearly more than what the PMOS can source, and so it is guarenteed to pull the Drain to less than 100 mV!</em></strong>.</p>
+<p>To the right side of <em>Figure-06</em>, you can see two different NMOS pull down. One having a size of <code>43.1/2</code> (standard size, see <a href="#table-01">Table-01</a>) in the centre and another having <code>86.2/2</code> (Double the width of standard size).</p>
+<p>The reason for doubling width should be obvious, if we pull 20 µA instead of 10 µA, it should pull the drain even lower than what the standard size can achieve.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Doubling width is achieved by keeping another MOSFET in parallel, and not by actually doubling width of the same MOSFET. This is done for matching purpose. On the occasion when you do double width of same MOSFET, it is recommended to add fingers to it. Again for matching purpose.</p>
+</div>
+<p>And clearly, each pull their drains to 75 mV and 30 mV respectively. From this, both can be used, but just to leave a margin for error <strong><em>Twice the width is made final.</em></strong></p>
+<h3 id="leaker-nmos-testbench">Leaker NMOS Testbench<a class="headerlink" href="#leaker-nmos-testbench" title="Permanent link">&para;</a></h3>
+<p>The leaker NMOS is chosen arbitrarily with the minimum length. Let's start with <code>10/1</code> (or <code>650 nm/65 nm</code>) and see how much current it can leak.</p>
+<figure>
+<p><img alt="Leaker MOS Design TB" src="../bmr-assets/06_LeakerDesign_dark.png#only-dark" />
+<img alt="Leaker MOS Design TB" src="../bmr-assets/06_LeakerDesign_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-07:</strong> Current leaked by a 10/1 NMOS.</p>
+</figcaption>
+</figure>
+<p>In the left of <em>Figure-07</em>, we see the Started case. This is simulated by remembering that when the BMR has turned ON and has stabilised, it generates a V<sub>GS</sub> of 500 mV (for the standard size and chosen bias current, see <a href="#table-01">Table-01</a>), which is directly applied to gate of Pull down NMOS using a voltage source.<br />
+In the full schematic, the drain of leaker NMOS is connected to gate of BMR PMOS, and the source is connected to drain of BMR NMOS (See <a href="#fig-01">Figure-01</a>). And when started, each of them are at <span class="arithmatex">\(V_{DD} - V_{SG,P} = 1.2 - 0.47 = 0.73 V\)</span> and <span class="arithmatex">\(V_{GS,N} = 0.5 V\)</span> (Again, see <a href="#table-01">Table-01</a>).<br />
+This is modelled using voltage sources to the drain and source of leaker NMOS each with appropriate value.<br />
+The current leaked is just 14 fA (too less to disturb our bias current, meaning <strong>our startup circuit is out of picture.</strong>)</p>
+<p>In the right of <em>Figure-07</em>, we see the initial case, i.e., not started case. And this is easily simulated by setting 0 V to the gate of Pull down NMOS, <span class="arithmatex">\(V_{DD} - V_{SG,P} = 1.2 - 0 = 1.2 V\)</span> to the drain of leaker NMOS, and <span class="arithmatex">\(V_{GS,N} = 0 V\)</span> to the source of leaker NMOS.<br />
+And this is now leaking 262 µA, more than enough to kickstart the circuit.</p>
+<p><a id="danger-01"></a></p>
+<div class="admonition danger">
+<p class="admonition-title">WARNING - Think of this 262 µA as a figure of merit for sizing this MOSFET and nothing more</p>
+<p>There is no way for a leaker MOSFET to conduct this much current considering the fact that it is connected to a node with <strong><em>NO DC PATH</em></strong> to any of the supply rail before the circuit has started. Think about it, the current path is connected to gate of BMR PMOS. How can such large currents be drawn through a gate of a MOSFET? It's impossible.</p>
+<p>One might argue that the error-amp output is also tied there and it can provide such a path for this current. Again think about it, when the circuit has not started, the voltage at the inputs of error-amp is at near GND. That pushes the output of error-amp to near V<sub>DD</sub>, shutting both pull-up PMOS OFF. There is no path here either.</p>
+<p>So, just think of this current as a figure of merit to choose a size for this MOSFET. <strong><em>In actual reality, it would leak few hundred nA at best. Nothing more.</em></strong></p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Then why bother with such a measurement?</p>
+<p>Imagine if your chosen size barely leaks a µA current even with voltage sources. Then it is guarenteed to take forever to startup the circuit. If you imagine can such a thing be possible, it is, unfortunately. Back when I was playing with this circuit to build it, I thought "why leak too much current into the circuit" and chose a ridiculous size, which obviously took too long to start.</p>
+<p>Naturally you want your startup action to be completed in reasonable time.</p>
+<p>That is why, I choose to highlight this current as a figure of merit. Nothing more.</p>
+</div>
+<p>Since the leaker performance is satisfactory for <code>10/1</code>, it is fixed.</p>
+<h2 id="transient-simulation-startup-action">Transient Simulation - Startup Action<a class="headerlink" href="#transient-simulation-startup-action" title="Permanent link">&para;</a></h2>
+<p>Let's attach the startup circuit to the BMR schematic of <a href="#fig-04">Figure-04</a>, and let's apply a voltage step to supply to see what happens. But before we do that, we need to <strong>compensate the error amplifier</strong> to ensure stability.</p>
+<p>Since the error amplifier is just a diff-amp, it can be easily compensated by placing a capactor at it's output. This doesn't need a passive capacitor, and <em>we can just use a MOSFET as a capacitor</em>.</p>
+<p>To that end, we have two options:</p>
+<ul>
+<li>NMOS as a capacitor (to GND)</li>
+<li>PMOS as a capacitor (to VDD)</li>
+</ul>
+<h3 id="using-mosfet-as-a-capacitor-to-compensate-the-feedback-loop">Using MOSFET as a capacitor to compensate the feedback loop<a class="headerlink" href="#using-mosfet-as-a-capacitor-to-compensate-the-feedback-loop" title="Permanent link">&para;</a></h3>
+<p>The error amp is driving the gate of BMR PMOS which is a high impedance node. This can be made the dominant pole by adding capacitance to it.</p>
+<p><a href="../../mosfet/parameters/#core-device-65-nm_2">Mosfet as a capacitor</a> Table has capacitance values for some standard sizes, which are repeated here for convenience:</p>
+<figure>
+<table>
+<thead>
+<tr>
+<th>Flavour</th>
+<th>Drawn Size</th>
+<th>Actual Size</th>
+<th>V<sub>G</sub></th>
+<th>Nominal Capacitance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NMOS-RVT</td>
+<td>20 / 20</td>
+<td>1.3 µm / 1.3 µm</td>
+<td>&gt; 0.6 V</td>
+<td>20.9 fF</td>
+</tr>
+<tr>
+<td>PMOS-RVT</td>
+<td>20 / 20</td>
+<td>1.3 µm / 1.3 µm</td>
+<td>&lt; 0.6 V</td>
+<td>20.4 fF</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-02:</strong> MOSFET capacitance for specific sizes and Voltage conditions</p>
+</figcaption>
+</figure>
+<p>From this we can see that the voltage at the gate of BMR PMOS (or outuput of error amp) dictates whether NMOS or PMOS can be used. Nominally this will be at <span class="arithmatex">\(V_{DD} - V_{SG,P} = 1.2 - 0.47 = 0.73 V\)</span>, and looking at Table-02, it seems we need to pick NMOS (as <span class="arithmatex">\(V_{G} &gt; 0.6 V\)</span>), but it is not that simple.</p>
+<h4 id="what-happens-with-a-capacitor-to-gnd-or-nmos-capacitor">What happens with a capacitor to GND (or NMOS Capacitor)?<a class="headerlink" href="#what-happens-with-a-capacitor-to-gnd-or-nmos-capacitor" title="Permanent link">&para;</a></h4>
+<figure>
+<p><img alt="NMOS Capacitor as load" src="../bmr-assets/14_NMOSCap_As_Load_dark.svg#only-dark" />
+<img alt="NMOS Capacitor as load" src="../bmr-assets/14_NMOSCap_As_Load_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-08:</strong> BMR loaded with NMOS capacitor.</p>
+</figcaption>
+</figure>
+<p>When circuit is OFF, all nodes will be at GND and the capacitor is initially discharged. As the supply steps up to it's nominal value, the source of BMR PMOS is pulled up, while the gate of BMR PMOS, initially gets pulled up (as MOSFET doesn't act as a good capacitor before it gets inverted or turned ON, see <em>Figure-09</em>), but once it crosses 0.6 V, NMOS starts to act as a capacitor, and <strong>will try to hold that node to that same value</strong>.</p>
+<figure>
+<p><img alt="NMOS CV Curve" src="../bmr-assets/08_CV_Curve_20by20_dark.svg#only-dark" />
+<img alt="NMOS CV Curve" src="../bmr-assets/08_CV_Curve_20by20_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-09:</strong> NMOS CV Curve for 20/20 size. (Curve title is wrong as I generated this for both 10/10 and 20/20 at the same time.)</p>
+</figcaption>
+</figure>
+<p>Due to this, we will see a sudden spike in the drain currents of BMR, and,</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>The larger the capacitance at this node, the longer it takes to charge it to its operating point, and the greater the magnitude of the current spikes becomes.</p>
+</div>
+<p><em>Figure-10</em> shows this case, where <strong><em>the supply starts to turn ON at 10 ns with a rise time of 20 ns to reach VDD at 30 ns</em></strong>. Here, we can see that there is indeed a current spike around the 20 ns mark where the supply is still in a transient state.</p>
+<figure>
+<p><img alt="Startup action with NMOS cap" src="../bmr-assets/10_StartupAction_NMOSCAP_20by20_5_dark.svg#only-dark" />
+<img alt="Startup action with NMOS cap" src="../bmr-assets/10_StartupAction_NMOSCAP_20by20_5_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-10:</strong> Startup transient with five 20/20 NMOS in parallel (Nominal Capictance of 100 fF).</p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even though the NMOS is suitable for this operating voltage, it causes these transient spikes during startup. And the larger the capacitance it offers, the greater these spikes becomes.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If this is the case, I think we can do away with the startup circuit as the BMR PMOS is guarenteed to push a current into BMR NMOS which in turn, starts up the circuit. But the above simulation was done with a startup included, and it was observed that the startup barely played it's role.</p>
+</div>
+<h4 id="what-happens-with-a-capacitor-to-vdd-or-pmos-capacitor">What happens with a capacitor to VDD (or PMOS Capacitor)?<a class="headerlink" href="#what-happens-with-a-capacitor-to-vdd-or-pmos-capacitor" title="Permanent link">&para;</a></h4>
+<p><a id="fig-11"></a></p>
+<figure>
+<p><img alt="PMOS Capacitor as load" src="../bmr-assets/15_PMOSCap_As_Load_dark.svg#only-dark" />
+<img alt="PMOS Capacitor as load" src="../bmr-assets/15_PMOSCap_As_Load_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-11:</strong> BMR loaded with PMOS capacitor.</p>
+</figcaption>
+</figure>
+<p>For starters, the capacitance varies heavily with voltage at that node, as backed by CV curve of PMOS in <em>Figure-12</em>.</p>
+<figure>
+<p><img alt="PMOS CV Curve" src="../bmr-assets/09_CV_Curve_PMOS_20by20_dark.svg#only-dark" />
+<img alt="PMOS CV Curve" src="../bmr-assets/09_CV_Curve_PMOS_20by20_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-12:</strong> PMOS CV Curve for 20/20 size.</p>
+</figcaption>
+</figure>
+<p>Especially our operating point of 730 mV is not in strong inversion region and from <em>Figure-12</em> we can see that it has a capacitance of 16.1 fF. Not good.</p>
+<p>But when you think about the transient response, with discharged state, the gate of BMR PMOS will move along with Supply (or source of BMR PMOS, see <a href="#fig-11">Figure-11</a>) and will not stay at GND as with NMOS Capacitor case, and so, <strong><em>we will not see any spikes,</em></strong> as the <span class="arithmatex">\(V_{SG} \approx 0 V\)</span>, till the startup tries to pull it down. Because, even though it's capacitance is not reaching it's nominal value, it still behaves as a capacitor to some extent.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Due to this, we need to place a really large PMOS to achieve the same amount of load offered by an NMOS. Also as the capacitance varies with voltage and still won't settle to a nominal value, the startup takes too long.</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Success</p>
+<p>But on the bright side, we will not see any current spikes as seen from <em>Figure-13</em></p>
+</div>
+<figure>
+<p><img alt="Startup action with PMOS cap" src="../bmr-assets/10_StartupAction_PMOSCAP_20by20_10_dark.svg#only-dark" />
+<img alt="Startup action with PMOS cap" src="../bmr-assets/10_StartupAction_PMOSCAP_20by20_10_light.svg#only-light" /></p>
+<figcaption>
+<p><strong>Figure-13:</strong> Startup transient with ten 20/20 PMOS in parallel (Nominal Capictance of 160 fF).</p>
+</figcaption>
+</figure>
+<p>Just as we speculated, the reference is taking a long time to turn ON as seen in <em>Figure-13</em> (around 90 ns mark). Also see the control voltage of leaker NMOS, <span class="arithmatex">\(V_{LEAK}\)</span> being 0.66 V all the time where the reference has remained OFF, meaning, that our startup circuit is working as expected.</p>
+<h4 id="which-one-should-you-use">Which one should you use?<a class="headerlink" href="#which-one-should-you-use" title="Permanent link">&para;</a></h4>
+<p>Honestly, I have no idea. So, I am going to standard textbooks, and use PMOS as a capacitor. Even though the capacitance variation makes the circuit take longer to turn ON, it doesn't produce any spikes, and the startup is guarenteed to safely turn ON the reference.</p>
+<p>So, I will go with PMOS.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<figure>
+<p><img alt="Full schematic of BMR" src="../bmr-assets/11_Full_Schematic_dark.png#only-dark" />
+<img alt="Full schematic of BMR" src="../bmr-assets/11_Full_Schematic_light.png#only-light" /></p>
+<figcaption>
+<p><strong>Figure-14:</strong> Final schematic of BMR with sizes from Table-01 and others from the rest of this documentation.</p>
+</figcaption>
+</figure>
+<p>The design of BMR is complete. The parameters of BMR are summarised in <em>Table-03</em>.</p>
+<figure>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I<sub>REF</sub></td>
+<td>10 µA</td>
+<td>Generated Bias Current</td>
+</tr>
+<tr>
+<td>V<sub>DD,min</sub></td>
+<td>0.7 V</td>
+<td>Minimum supply Voltage (See <a href="#fig-05">Figure-05</a>)</td>
+</tr>
+<tr>
+<td>R</td>
+<td>6.2 kΩ</td>
+<td>Bias current setting resistor value</td>
+</tr>
+</tbody>
+</table>
+<figcaption>
+<p><strong>Table-03:</strong> BMR Parameter summary</p>
+</figcaption>
+</figure>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../mosfet/BJT-parameters/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Parasitic BJT Summary">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Parasitic BJT Summary
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../general-bias/" class="md-footer__link md-footer__link--next" aria-label="Next: General Bias Circuit">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                General Bias Circuit
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright, &copy; 2026, Arunpandian A. Licensed under CC BY 4.0 &nbsp;·&nbsp; Analog IC Design Engineer (Fresher), India
+
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/arunpandian-801/QUCS-65nm-Workspace" target="_blank" rel="noopener" title="QUCS-S Workspace on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
